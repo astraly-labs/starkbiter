@@ -47,16 +47,17 @@ The Starkbiter workspace has five crates:
 - [x] test for simultaneous connection usage by different contracts.
 - [x] Add API to preload state and save it to file. (like EKUBO core contract storage)
 - [x] Test approach to set local nonce before adding transaction to bypass validation (less remote calls)
+- [x] contribute to starknet-rs and remove fork dep
 - [ ] Contribute to starknet-devnet and remove fork dep
-  - defaulter extension
-  - type conversions
-  - some internals publishing
+  - [x] defaulter extension
+  - [ ] Type conversions
+  - [ ] Type conversions. need to replace Into with From
+  - [ ] Type conversions. remove Clone where possible
+  - [ ] some internals publishing
 - [ ] contribute to cainome and remove fork dep
-- [ ] contribute to starknet-rs and remove fork dep + Fix generic Runtime error with more specific errors from within Provider
+- [ ] Fix generic Runtime error with more specific errors from within Provider
 - [ ] Coverage report
 - [ ] Python binding add validation (last minute changes were dirty)
-- [ ] Type conversions. need to replace Into with From
-- [ ] Type conversions. remove Clone where possible
 - [ ] Environment. Move handler processing logic in separate files.
 - [ ] Make explicit naming for methods that only work with local data and ones that work against remote state
 
