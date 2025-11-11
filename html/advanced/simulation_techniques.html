@@ -1,0 +1,486 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Simulation Techniques - Starkbiter Documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Starkbiter Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="simulation-techniques"><a class="header" href="#simulation-techniques">Simulation Techniques</a></h1>
+<p>Advanced techniques for building realistic and effective simulations with Starkbiter.</p>
+<h2 id="agent-based-modeling"><a class="header" href="#agent-based-modeling">Agent-Based Modeling</a></h2>
+<h3 id="heterogeneous-agents"><a class="header" href="#heterogeneous-agents">Heterogeneous Agents</a></h3>
+<p>Create agents with different behaviors and strategies:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Conservative trader
+let conservative = Agent::new("conservative", ConservativeBehavior {
+    risk_tolerance: 0.3,
+    trade_frequency: Duration::from_secs(3600),
+});
+
+// Aggressive trader
+let aggressive = Agent::new("aggressive", AggressiveBehavior {
+    risk_tolerance: 0.9,
+    trade_frequency: Duration::from_secs(60),
+});
+
+world.add_agent(conservative);
+world.add_agent(aggressive);
+<span class="boring">}</span></code></pre></pre>
+<h3 id="adaptive-agents"><a class="header" href="#adaptive-agents">Adaptive Agents</a></h3>
+<p>Agents that learn and adapt:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct AdaptiveBehavior {
+    strategy: Box&lt;dyn Strategy&gt;,
+    performance: PerformanceTracker,
+}
+
+impl Behavior for AdaptiveBehavior {
+    async fn execute(&amp;mut self, world: &amp;World) -&gt; Result&lt;()&gt; {
+        // Execute strategy
+        let result = self.strategy.execute(world).await?;
+        
+        // Track performance
+        self.performance.record(result);
+        
+        // Adapt if performance is poor
+        if self.performance.is_underperforming() {
+            self.strategy = self.select_better_strategy();
+        }
+        
+        Ok(())
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="economic-modeling"><a class="header" href="#economic-modeling">Economic Modeling</a></h2>
+<h3 id="supply-and-demand"><a class="header" href="#supply-and-demand">Supply and Demand</a></h3>
+<p>Model market dynamics:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct MarketSimulation {
+    suppliers: Vec&lt;Agent&gt;,
+    consumers: Vec&lt;Agent&gt;,
+    price_discovery: PriceDiscovery,
+}
+
+impl MarketSimulation {
+    async fn simulate(&amp;mut self, blocks: u64) -&gt; Result&lt;PriceHistory&gt; {
+        for _ in 0..blocks {
+            // Suppliers offer
+            let supply = self.aggregate_supply().await?;
+            
+            // Consumers bid
+            let demand = self.aggregate_demand().await?;
+            
+            // Clear market
+            let price = self.price_discovery.clear_market(supply, demand);
+            
+            // Execute trades
+            self.execute_at_price(price).await?;
+        }
+        
+        Ok(self.price_discovery.history())
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="liquidity-modeling"><a class="header" href="#liquidity-modeling">Liquidity Modeling</a></h3>
+<p>Simulate realistic liquidity conditions:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct LiquidityProvider {
+    target_tvl: u64,
+    rebalance_threshold: f64,
+}
+
+impl Behavior for LiquidityProvider {
+    async fn execute(&amp;mut self, world: &amp;World) -&gt; Result&lt;()&gt; {
+        let current_tvl = self.get_tvl(world).await?;
+        let imbalance = (current_tvl as f64 - self.target_tvl as f64).abs()
+            / self.target_tvl as f64;
+        
+        if imbalance &gt; self.rebalance_threshold {
+            self.rebalance(world, current_tvl).await?;
+        }
+        
+        Ok(())
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="monte-carlo-simulation"><a class="header" href="#monte-carlo-simulation">Monte Carlo Simulation</a></h2>
+<p>Run many simulations with random parameters:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn monte_carlo_analysis(
+    scenarios: usize,
+) -&gt; Result&lt;Statistics&gt; {
+    let mut results = vec![];
+    
+    for i in 0..scenarios {
+        // Create environment with random seed
+        let env = Environment::builder()
+            .with_seed(i as u64)
+            .build()
+            .await?;
+        
+        // Run simulation
+        let outcome = run_simulation(env).await?;
+        results.push(outcome);
+    }
+    
+    // Analyze results
+    Ok(Statistics::from_results(results))
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="scenario-analysis"><a class="header" href="#scenario-analysis">Scenario Analysis</a></h2>
+<h3 id="best-case--worst-case"><a class="header" href="#best-case--worst-case">Best Case / Worst Case</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn scenario_analysis() -&gt; Result&lt;ScenarioResults&gt; {
+    let universe = Universe::new();
+    
+    // Best case
+    let best = create_optimistic_world().await?;
+    universe.add_world("best", best);
+    
+    // Expected case
+    let expected = create_realistic_world().await?;
+    universe.add_world("expected", expected);
+    
+    // Worst case
+    let worst = create_pessimistic_world().await?;
+    universe.add_world("worst", worst);
+    
+    universe.run_all().await?;
+    
+    Ok(universe.compare_outcomes())
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="parameter-sweeps"><a class="header" href="#parameter-sweeps">Parameter Sweeps</a></h3>
+<p>Test across parameter ranges:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn parameter_sweep() -&gt; Result&lt;HeatMap&gt; {
+    let mut results = HeatMap::new();
+    
+    for fee in [0.001, 0.003, 0.005, 0.01] {
+        for slippage in [0.001, 0.005, 0.01, 0.05] {
+            let env = Environment::builder().build().await?;
+            let protocol = deploy_with_params(&amp;env, fee, slippage).await?;
+            
+            let profit = simulate_trading(&amp;protocol).await?;
+            results.insert((fee, slippage), profit);
+        }
+    }
+    
+    Ok(results)
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="time-series-analysis"><a class="header" href="#time-series-analysis">Time Series Analysis</a></h2>
+<h3 id="price-processes"><a class="header" href="#price-processes">Price Processes</a></h3>
+<p>Simulate realistic price movements:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct GeometricBrownianMotion {
+    mu: f64,      // drift
+    sigma: f64,   // volatility
+    dt: f64,      // time step
+}
+
+impl GeometricBrownianMotion {
+    fn simulate(&amp;self, steps: usize, initial_price: f64) -&gt; Vec&lt;f64&gt; {
+        let mut prices = vec![initial_price];
+        let mut rng = thread_rng();
+        
+        for _ in 0..steps {
+            let last_price = prices.last().unwrap();
+            let dw = Normal::new(0.0, (self.dt).sqrt()).unwrap().sample(&amp;mut rng);
+            let drift = self.mu * self.dt;
+            let diffusion = self.sigma * dw;
+            let next_price = last_price * ((drift + diffusion).exp());
+            prices.push(next_price);
+        }
+        
+        prices
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="event-driven-updates"><a class="header" href="#event-driven-updates">Event-Driven Updates</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct PriceOracle {
+    gbm: GeometricBrownianMotion,
+    current_price: f64,
+}
+
+impl Behavior for PriceOracle {
+    async fn execute(&amp;mut self, world: &amp;World) -&gt; Result&lt;()&gt; {
+        // Update price
+        let new_price = self.gbm.step(self.current_price);
+        self.current_price = new_price;
+        
+        // Broadcast update
+        world.broadcast(Message::PriceUpdate {
+            asset: "ETH".to_string(),
+            price: new_price,
+        }).await?;
+        
+        Ok(())
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="network-effects"><a class="header" href="#network-effects">Network Effects</a></h2>
+<p>Model interactions between agents:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct NetworkSimulation {
+    agents: Vec&lt;Agent&gt;,
+    network: Graph&lt;AgentId, Relationship&gt;,
+}
+
+impl NetworkSimulation {
+    async fn propagate_influence(&amp;mut self, source: AgentId) -&gt; Result&lt;()&gt; {
+        // Find neighbors
+        let neighbors = self.network.neighbors(source);
+        
+        // Influence spreads through network
+        for neighbor in neighbors {
+            if let Some(agent) = self.agents.get_mut(&amp;neighbor) {
+                agent.receive_influence(source).await?;
+            }
+        }
+        
+        Ok(())
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
+<ul>
+<li><a href="./anomaly_detection.html">Anomaly Detection</a> - Detecting unusual behavior</li>
+<li><a href="./testing_strategies.html">Testing Strategies</a> - Testing approaches</li>
+<li><a href="./performance.html">Performance Optimization</a> - Optimizing simulations</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../advanced/testing_strategies.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../advanced/anomaly_detection.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../advanced/testing_strategies.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../advanced/anomaly_detection.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

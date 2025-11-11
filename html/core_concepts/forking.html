@@ -1,0 +1,623 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Forking - Starkbiter Documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Starkbiter Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="forking"><a class="header" href="#forking">Forking</a></h1>
+<p>Forking allows you to create a local simulation based on the state of a live Starknet network. This is incredibly powerful for testing against real mainnet/testnet conditions without spending real tokens.</p>
+<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
+<p>When you fork a network, Starkbiter:</p>
+<ol>
+<li>Connects to a live Starknet RPC endpoint</li>
+<li>Fetches state lazily (only when needed)</li>
+<li>Stores state locally for fast access</li>
+<li>Allows you to make local modifications without affecting the real network</li>
+</ol>
+<h2 id="basic-forking"><a class="header" href="#basic-forking">Basic Forking</a></h2>
+<h3 id="fork-from-mainnet"><a class="header" href="#fork-from-mainnet">Fork from Mainnet</a></h3>
+<pre><pre class="playground"><code class="language-rust">use starkbiter_core::environment::Environment;
+use starknet::core::types::Felt;
+use url::Url;
+use std::str::FromStr;
+
+#[tokio::main]
+async fn main() -&gt; anyhow::Result&lt;()&gt; {
+    let env = Environment::builder()
+        .with_chain_id(Felt::from_hex("0x534e5f4d41494e")?)  // Mainnet
+        .with_fork(
+            Url::from_str("https://starknet-mainnet.public.blastapi.io")?,
+            100000,  // Block number to fork from
+            None,    // Optional: block hash for verification
+        )
+        .build()
+        .await?;
+    
+    // Now you have mainnet state locally!
+    let block = env.get_block_number().await?;
+    println!("Forked at block: {}", block);
+    
+    Ok(())
+}</code></pre></pre>
+<h3 id="fork-from-sepolia"><a class="header" href="#fork-from-sepolia">Fork from Sepolia</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let env = Environment::builder()
+    .with_chain_id(Felt::from_hex("0x534e5f5345504f4c4941")?)
+    .with_fork(
+        Url::from_str("https://starknet-sepolia.public.blastapi.io")?,
+        50000,
+        None,
+    )
+    .build()
+    .await?;
+<span class="boring">}</span></code></pre></pre>
+<h2 id="configuration"><a class="header" href="#configuration">Configuration</a></h2>
+<h3 id="block-selection"><a class="header" href="#block-selection">Block Selection</a></h3>
+<p>You can fork from any block:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Fork from latest block (use a very high number)
+.with_fork(rpc_url, u64::MAX, None)
+
+// Fork from specific block
+.with_fork(rpc_url, 123456, None)
+
+// Fork with block hash verification
+.with_fork(
+    rpc_url,
+    123456,
+    Some(Felt::from_hex("0xblock_hash")?),
+)
+<span class="boring">}</span></code></pre></pre>
+<h3 id="rpc-endpoints"><a class="header" href="#rpc-endpoints">RPC Endpoints</a></h3>
+<p>Popular Starknet RPC providers:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Public endpoints
+const MAINNET: &amp;str = "https://starknet-mainnet.public.blastapi.io";
+const SEPOLIA: &amp;str = "https://starknet-sepolia.public.blastapi.io";
+
+// Alchemy
+const ALCHEMY: &amp;str = "https://starknet-mainnet.g.alchemy.com/v2/YOUR_API_KEY";
+
+// Infura
+const INFURA: &amp;str = "https://starknet-mainnet.infura.io/v3/YOUR_PROJECT_ID";
+<span class="boring">}</span></code></pre></pre>
+<h2 id="use-cases"><a class="header" href="#use-cases">Use Cases</a></h2>
+<h3 id="testing-against-real-protocols"><a class="header" href="#testing-against-real-protocols">Testing Against Real Protocols</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use starkbiter_bindings::erc_20_mintable_oz0::ERC20;
+
+// Fork mainnet
+let env = Environment::builder()
+    .with_fork(mainnet_url, block_num, None)
+    .build()
+    .await?;
+
+// Interact with real USDC contract
+let usdc_address = Felt::from_hex("0x053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8")?;
+let account = env.create_account().await?;
+let usdc = ERC20::new(usdc_address, &amp;account);
+
+// Read real state
+let total_supply = usdc.total_supply().await?;
+println!("USDC total supply: {}", total_supply);
+<span class="boring">}</span></code></pre></pre>
+<h3 id="debugging-transactions"><a class="header" href="#debugging-transactions">Debugging Transactions</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Fork at the block before an issue occurred
+let env = Environment::builder()
+    .with_fork(mainnet_url, problem_block - 1, None)
+    .build()
+    .await?;
+
+// Reproduce the issue locally
+let tx_result = reproduce_issue(&amp;env).await?;
+
+// Debug with full control
+env.increase_time(1).await?;
+let next_result = try_fix(&amp;env).await?;
+<span class="boring">}</span></code></pre></pre>
+<h3 id="strategy-backtesting"><a class="header" href="#strategy-backtesting">Strategy Backtesting</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Fork from historical block
+let env = Environment::builder()
+    .with_fork(mainnet_url, historical_block, None)
+    .build()
+    .await?;
+
+// Run your strategy against real historical state
+let profit = run_strategy(&amp;env).await?;
+println!("Strategy would have made: {}", profit);
+<span class="boring">}</span></code></pre></pre>
+<h3 id="protocol-integration-testing"><a class="header" href="#protocol-integration-testing">Protocol Integration Testing</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Test your protocol against real DEX
+let env = Environment::builder()
+    .with_fork(mainnet_url, latest_block, None)
+    .build()
+    .await?;
+
+// Deploy your protocol
+let my_contract = deploy_my_protocol(&amp;env).await?;
+
+// Test integration with real Jediswap/10k swap/Ekubo
+let result = test_swap_integration(&amp;env, my_contract).await?;
+<span class="boring">}</span></code></pre></pre>
+<h2 id="lazy-state-loading"><a class="header" href="#lazy-state-loading">Lazy State Loading</a></h2>
+<p>Starkbiter loads state lazily for efficiency:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Fork is created
+let env = Environment::builder()
+    .with_fork(url, block, None)
+    .build()
+    .await?;
+
+// State is fetched only when accessed
+let balance = env.get_balance(address).await?;  // Fetches balance
+let storage = env.get_storage_at(contract, key).await?;  // Fetches storage
+
+// Subsequent accesses use cached state
+let balance2 = env.get_balance(address).await?;  // Uses cache
+<span class="boring">}</span></code></pre></pre>
+<h2 id="local-modifications"><a class="header" href="#local-modifications">Local Modifications</a></h2>
+<p>Changes you make are local and don't affect the real network:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Fork mainnet
+let env = Environment::builder()
+    .with_fork(mainnet_url, block, None)
+    .build()
+    .await?;
+
+let account = env.create_account().await?;
+
+// Modify state locally
+env.set_balance(account.address(), Felt::from(1_000_000u64)).await?;
+
+// Deploy contracts
+let my_contract = deploy_contract(&amp;account).await?;
+
+// Make transactions
+my_contract.do_something().await?;
+
+// All changes are local - mainnet is unaffected!
+<span class="boring">}</span></code></pre></pre>
+<h2 id="impersonation-in-forks"><a class="header" href="#impersonation-in-forks">Impersonation in Forks</a></h2>
+<p>Interact with contracts as if you were any address:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Fork mainnet
+let env = Environment::builder()
+    .with_fork(mainnet_url, block, None)
+    .build()
+    .await?;
+
+// Impersonate a whale address
+let whale = Felt::from_hex("0xwhale_address")?;
+env.start_prank(contract_address, whale).await?;
+
+// Make calls as the whale
+let contract = Token::new(token_address, &amp;env);
+contract.transfer(my_address, large_amount).await?;
+
+env.stop_prank(contract_address).await?;
+<span class="boring">}</span></code></pre></pre>
+<h2 id="snapshot-and-restore-with-forks"><a class="header" href="#snapshot-and-restore-with-forks">Snapshot and Restore with Forks</a></h2>
+<p>Combine forking with snapshots for powerful testing:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Fork mainnet
+let env = Environment::builder()
+    .with_fork(mainnet_url, block, None)
+    .build()
+    .await?;
+
+// Take snapshot of forked state
+let snapshot = env.snapshot().await?;
+
+// Test scenario 1
+test_scenario_1(&amp;env).await?;
+
+// Restore forked state
+env.restore(snapshot).await?;
+
+// Test scenario 2 with same starting state
+test_scenario_2(&amp;env).await?;
+<span class="boring">}</span></code></pre></pre>
+<h2 id="performance-considerations"><a class="header" href="#performance-considerations">Performance Considerations</a></h2>
+<h3 id="network-latency"><a class="header" href="#network-latency">Network Latency</a></h3>
+<p>State fetching requires network calls:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// First access: slow (network fetch)
+let balance = env.get_balance(address).await?;
+
+// Subsequent accesses: fast (cached)
+let balance2 = env.get_balance(address).await?;
+<span class="boring">}</span></code></pre></pre>
+<h3 id="batch-queries"><a class="header" href="#batch-queries">Batch Queries</a></h3>
+<p>Optimize by batching related operations:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Instead of sequential queries
+let balance1 = env.get_balance(addr1).await?;
+let balance2 = env.get_balance(addr2).await?;
+
+// Use concurrent queries
+use tokio::try_join;
+let (balance1, balance2) = try_join!(
+    env.get_balance(addr1),
+    env.get_balance(addr2),
+)?;
+<span class="boring">}</span></code></pre></pre>
+<h3 id="persistent-caching"><a class="header" href="#persistent-caching">Persistent Caching</a></h3>
+<p>Consider caching fork state for repeated runs:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Future enhancement (not yet implemented)
+let env = Environment::builder()
+    .with_fork(url, block, None)
+    .with_cache_dir("./fork_cache")
+    .build()
+    .await?;
+<span class="boring">}</span></code></pre></pre>
+<h2 id="limitations"><a class="header" href="#limitations">Limitations</a></h2>
+<h3 id="active-connection-required"><a class="header" href="#active-connection-required">Active Connection Required</a></h3>
+<p>Forking requires the RPC endpoint to remain available:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// ❌ This will fail if RPC goes down
+let env = Environment::builder()
+    .with_fork(unreliable_url, block, None)
+    .build()
+    .await?;
+
+// First access works
+let state1 = env.get_storage_at(addr, key).await?;
+
+// If RPC goes down, subsequent fetches fail
+let state2 = env.get_storage_at(other_addr, key).await?;  // Error!
+<span class="boring">}</span></code></pre></pre>
+<h3 id="state-consistency"><a class="header" href="#state-consistency">State Consistency</a></h3>
+<p>Forked state is point-in-time:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Fork at block 100000
+let env = Environment::builder()
+    .with_fork(url, 100000, None)
+    .build()
+    .await?;
+
+// State is frozen at block 100000
+// Real network has moved on
+// Your fork doesn't see newer transactions
+<span class="boring">}</span></code></pre></pre>
+<h3 id="block-hash-verification"><a class="header" href="#block-hash-verification">Block Hash Verification</a></h3>
+<p>If provided, block hash must match:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// This will fail if block hash doesn't match block number
+let env = Environment::builder()
+    .with_fork(
+        url,
+        123456,
+        Some(wrong_block_hash),  // ❌ Error!
+    )
+    .build()
+    .await?;
+<span class="boring">}</span></code></pre></pre>
+<h2 id="best-practices"><a class="header" href="#best-practices">Best Practices</a></h2>
+<h3 id="1-use-recent-blocks"><a class="header" href="#1-use-recent-blocks">1. Use Recent Blocks</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Good: Recent block, less likely to be pruned
+.with_fork(url, recent_block, None)
+
+// Risky: Very old block might be pruned by RPC
+.with_fork(url, very_old_block, None)
+<span class="boring">}</span></code></pre></pre>
+<h3 id="2-verify-block-hash-for-critical-tests"><a class="header" href="#2-verify-block-hash-for-critical-tests">2. Verify Block Hash for Critical Tests</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// For production testing, verify block hash
+.with_fork(
+    url,
+    critical_block,
+    Some(verified_block_hash),
+)
+<span class="boring">}</span></code></pre></pre>
+<h3 id="3-handle-network-errors"><a class="header" href="#3-handle-network-errors">3. Handle Network Errors</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let env = match Environment::builder()
+    .with_fork(url, block, None)
+    .build()
+    .await
+{
+    Ok(env) =&gt; env,
+    Err(e) =&gt; {
+        eprintln!("Failed to fork: {}", e);
+        // Fallback to non-forked environment
+        Environment::builder().build().await?
+    }
+};
+<span class="boring">}</span></code></pre></pre>
+<h3 id="4-use-local-snapshots"><a class="header" href="#4-use-local-snapshots">4. Use Local Snapshots</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// After forking, take snapshot for fast resets
+let snapshot = env.snapshot().await?;
+
+for test in tests {
+    env.restore(snapshot).await?;
+    test.run(&amp;env).await?;
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h2>
+<h3 id="fork-fails-to-connect"><a class="header" href="#fork-fails-to-connect">Fork Fails to Connect</a></h3>
+<pre><code>Error: Failed to connect to RPC endpoint
+</code></pre>
+<p><strong>Solutions:</strong></p>
+<ul>
+<li>Check RPC URL is correct</li>
+<li>Verify network connectivity</li>
+<li>Try a different RPC provider</li>
+<li>Check if the endpoint requires API key</li>
+</ul>
+<h3 id="block-not-found"><a class="header" href="#block-not-found">Block Not Found</a></h3>
+<pre><code>Error: Block not found
+</code></pre>
+<p><strong>Solutions:</strong></p>
+<ul>
+<li>Verify block number exists</li>
+<li>Check if block is too old (pruned)</li>
+<li>Try a more recent block</li>
+<li>Use an archive node for historical blocks</li>
+</ul>
+<h3 id="state-loading-timeout"><a class="header" href="#state-loading-timeout">State Loading Timeout</a></h3>
+<pre><code>Error: Timeout fetching state
+</code></pre>
+<p><strong>Solutions:</strong></p>
+<ul>
+<li>Increase timeout duration</li>
+<li>Use a faster RPC provider</li>
+<li>Pre-warm cache by accessing state upfront</li>
+</ul>
+<h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
+<ul>
+<li><a href="./environment.html">Environment</a> - Deep dive into Environment API</li>
+<li><a href="./middleware.html">Middleware</a> - Understanding the middleware layer</li>
+<li><a href="../advanced/simulation_techniques.html">Advanced Topics</a> - Advanced simulation techniques</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../core_concepts/middleware.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../usage/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../core_concepts/middleware.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../usage/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

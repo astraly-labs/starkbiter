@@ -1,0 +1,502 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Architecture - Starkbiter Documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Starkbiter Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="architecture"><a class="header" href="#architecture">Architecture</a></h1>
+<p>Starkbiter's architecture is designed to provide a seamless simulation experience while maintaining compatibility with existing Starknet tooling. This chapter explains the high-level architecture and how different components work together.</p>
+<h2 id="system-overview"><a class="header" href="#system-overview">System Overview</a></h2>
+<pre><code>┌─────────────────────────────────────────────────────────────┐
+│                         User Code                            │
+│  (Agents, Behaviors, Simulations)                           │
+└────────────────┬────────────────────────────────────────────┘
+                 │
+┌────────────────▼────────────────────────────────────────────┐
+│                   Starkbiter Engine                          │
+│  • Agent Management                                          │
+│  • Behavior Orchestration                                    │
+│  • World &amp; Universe Abstractions                            │
+└────────────────┬────────────────────────────────────────────┘
+                 │
+┌────────────────▼────────────────────────────────────────────┐
+│                    Starkbiter Core                           │
+│  • Environment (Sandbox)                                     │
+│  • Middleware (starknet-rs compatible)                       │
+│  • Token Management                                          │
+└────────────────┬────────────────────────────────────────────┘
+                 │
+┌────────────────▼────────────────────────────────────────────┐
+│                  Starknet Devnet                             │
+│  • Blockifier (Sequencer Implementation)                     │
+│  • JSON-RPC Interface                                        │
+│  • State Management                                          │
+└─────────────────────────────────────────────────────────────┘
+</code></pre>
+<h2 id="core-components"><a class="header" href="#core-components">Core Components</a></h2>
+<h3 id="1-starkbiter-core"><a class="header" href="#1-starkbiter-core">1. Starkbiter Core</a></h3>
+<p>The foundation of Starkbiter, providing low-level primitives for Starknet interaction.</p>
+<p><strong>Key Responsibilities:</strong></p>
+<ul>
+<li><strong>Environment Management:</strong> Creates and manages sandboxed Starknet instances</li>
+<li><strong>Middleware Layer:</strong> Provides <code>starknet-rs</code> compatible interface for contract interaction</li>
+<li><strong>State Control:</strong> Manages blockchain state, block production, and time manipulation</li>
+<li><strong>Account Management:</strong> Handles account creation and deployment</li>
+</ul>
+<p><strong>Key Types:</strong></p>
+<ul>
+<li><code>Environment</code> - Sandboxed Starknet instance</li>
+<li><code>CheatingProvider</code> - Middleware with additional testing capabilities</li>
+<li><code>Connection</code> - Manages RPC communication</li>
+</ul>
+<h3 id="2-starkbiter-engine"><a class="header" href="#2-starkbiter-engine">2. Starkbiter Engine</a></h3>
+<p>High-level abstractions for building complex simulations.</p>
+<p><strong>Key Responsibilities:</strong></p>
+<ul>
+<li><strong>Agent Lifecycle:</strong> Creates, manages, and coordinates agents</li>
+<li><strong>Behavior Execution:</strong> Schedules and runs agent behaviors</li>
+<li><strong>Event System:</strong> Handles blockchain events and inter-agent messaging</li>
+<li><strong>World Management:</strong> Provides simulation environments with shared state</li>
+</ul>
+<p><strong>Key Types:</strong></p>
+<ul>
+<li><code>Agent</code> - Autonomous entity with behaviors</li>
+<li><code>Behavior</code> - Trait for defining agent actions</li>
+<li><code>World</code> - Simulation environment</li>
+<li><code>Universe</code> - Collection of worlds</li>
+<li><code>Messager</code> - Inter-agent communication</li>
+</ul>
+<h3 id="3-starkbiter-cli"><a class="header" href="#3-starkbiter-cli">3. Starkbiter CLI</a></h3>
+<p>Command-line tools for project management.</p>
+<p><strong>Key Responsibilities:</strong></p>
+<ul>
+<li><strong>Binding Generation:</strong> Creates Rust bindings from Cairo contracts</li>
+<li><strong>Project Templates:</strong> Scaffolds new simulation projects</li>
+<li><strong>Build Tools:</strong> Compiles and manages contract artifacts</li>
+</ul>
+<h3 id="4-starkbiter-bindings"><a class="header" href="#4-starkbiter-bindings">4. Starkbiter Bindings</a></h3>
+<p>Pre-generated bindings for common contracts.</p>
+<p><strong>Includes:</strong></p>
+<ul>
+<li>ERC20 tokens</li>
+<li>Account contracts (Argent, OpenZeppelin)</li>
+<li>DEX contracts (Ekubo)</li>
+<li>Utility contracts</li>
+</ul>
+<h2 id="data-flow"><a class="header" href="#data-flow">Data Flow</a></h2>
+<h3 id="contract-deployment-flow"><a class="header" href="#contract-deployment-flow">Contract Deployment Flow</a></h3>
+<pre><code>User Code
+    │
+    └─&gt; Environment.declare_contract()
+            │
+            └─&gt; Devnet declares contract class
+                    │
+                    └─&gt; Returns class hash
+    
+User Code
+    │
+    └─&gt; Environment.deploy_contract()
+            │
+            └─&gt; Devnet deploys instance
+                    │
+                    └─&gt; Returns contract address
+</code></pre>
+<h3 id="transaction-execution-flow"><a class="header" href="#transaction-execution-flow">Transaction Execution Flow</a></h3>
+<pre><code>Agent Behavior
+    │
+    └─&gt; Contract.call_method()
+            │
+            └─&gt; Middleware prepares transaction
+                    │
+                    └─&gt; Devnet executes transaction
+                            │
+                            ├─&gt; Updates state
+                            ├─&gt; Emits events
+                            └─&gt; Returns receipt
+                                    │
+                                    └─&gt; Agent processes result
+</code></pre>
+<h3 id="event-handling-flow"><a class="header" href="#event-handling-flow">Event Handling Flow</a></h3>
+<pre><code>Contract emits event
+    │
+    └─&gt; Devnet captures event
+            │
+            └─&gt; Environment polls for events
+                    │
+                    └─&gt; Event distributed to subscribers
+                            │
+                            └─&gt; Agent behaviors triggered
+</code></pre>
+<h2 id="design-principles"><a class="header" href="#design-principles">Design Principles</a></h2>
+<h3 id="1-compatibility-first"><a class="header" href="#1-compatibility-first">1. Compatibility First</a></h3>
+<p>Starkbiter maintains compatibility with <code>starknet-rs</code> to ensure:</p>
+<ul>
+<li>Seamless integration with existing code</li>
+<li>Familiar APIs for developers</li>
+<li>Easy transition between testing and production</li>
+</ul>
+<h3 id="2-layered-abstraction"><a class="header" href="#2-layered-abstraction">2. Layered Abstraction</a></h3>
+<p>Each layer serves a specific purpose:</p>
+<ul>
+<li><strong>Low-level (Core):</strong> Maximum control and flexibility</li>
+<li><strong>Mid-level (Engine):</strong> Balanced abstraction for common patterns</li>
+<li><strong>High-level (User Code):</strong> Domain-specific logic</li>
+</ul>
+<h3 id="3-performance-oriented"><a class="header" href="#3-performance-oriented">3. Performance Oriented</a></h3>
+<ul>
+<li>Local execution eliminates network latency</li>
+<li>Efficient state management</li>
+<li>Optimized for rapid iteration</li>
+</ul>
+<h3 id="4-testing-first"><a class="header" href="#4-testing-first">4. Testing First</a></h3>
+<p>Built specifically for testing scenarios:</p>
+<ul>
+<li>Time manipulation</li>
+<li>State snapshots and rollbacks</li>
+<li>Deterministic execution</li>
+<li>Block production control</li>
+</ul>
+<h2 id="integration-points"><a class="header" href="#integration-points">Integration Points</a></h2>
+<h3 id="with-starknet-rs"><a class="header" href="#with-starknet-rs">With Starknet-rs</a></h3>
+<p>Starkbiter implements <code>starknet-rs</code> traits:</p>
+<ul>
+<li><code>Provider</code> - For read operations</li>
+<li><code>Account</code> - For transaction signing and submission</li>
+</ul>
+<p>This allows seamless use of:</p>
+<ul>
+<li>Contract bindings generated with <code>cainome</code></li>
+<li>Existing Starknet libraries</li>
+<li>Standard tooling</li>
+</ul>
+<h3 id="with-starknet-devnet"><a class="header" href="#with-starknet-devnet">With Starknet Devnet</a></h3>
+<p>Starkbiter wraps Starknet Devnet to provide:</p>
+<ul>
+<li>Full sequencer capabilities</li>
+<li>JSON-RPC interface</li>
+<li>State forking</li>
+<li>Additional testing methods</li>
+</ul>
+<h3 id="with-cairo-contracts"><a class="header" href="#with-cairo-contracts">With Cairo Contracts</a></h3>
+<p>Starkbiter works with standard Cairo contracts:</p>
+<ul>
+<li>Compiled to Sierra 1.0</li>
+<li>Standard JSON format</li>
+<li>ABI compatibility</li>
+</ul>
+<h2 id="execution-model"><a class="header" href="#execution-model">Execution Model</a></h2>
+<h3 id="synchronous-simulation"><a class="header" href="#synchronous-simulation">Synchronous Simulation</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Create environment
+let env = Environment::builder().build().await?;
+
+// Operations execute immediately
+let account = env.create_account(...).await?;
+let contract = deploy_contract(&amp;account, ...).await?;
+
+// State is updated synchronously
+let result = contract.transfer(...).await?;
+<span class="boring">}</span></code></pre></pre>
+<h3 id="event-driven-simulation"><a class="header" href="#event-driven-simulation">Event-Driven Simulation</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Agents react to events
+let mut agent = Agent::new("trader", TradingBehavior);
+
+agent.on_event("SwapExecuted", |event| {
+    // React to DEX swaps
+    handle_swap(event)
+});
+
+// Engine coordinates execution
+world.add_agent(agent);
+world.run().await?;
+<span class="boring">}</span></code></pre></pre>
+<h2 id="memory-and-state-management"><a class="header" href="#memory-and-state-management">Memory and State Management</a></h2>
+<h3 id="environment-lifecycle"><a class="header" href="#environment-lifecycle">Environment Lifecycle</a></h3>
+<ol>
+<li><strong>Initialization:</strong> Devnet starts with genesis state</li>
+<li><strong>Execution:</strong> State updates with each transaction</li>
+<li><strong>Cleanup:</strong> Resources released on drop</li>
+</ol>
+<h3 id="state-isolation"><a class="header" href="#state-isolation">State Isolation</a></h3>
+<p>Each <code>Environment</code> instance:</p>
+<ul>
+<li>Has its own isolated state</li>
+<li>Independent block production</li>
+<li>Separate account namespaces</li>
+</ul>
+<h3 id="forking"><a class="header" href="#forking">Forking</a></h3>
+<p>When forking from live networks:</p>
+<ul>
+<li>Initial state loaded lazily</li>
+<li>Missing state fetched on-demand</li>
+<li>Local modifications isolated</li>
+</ul>
+<h2 id="concurrency-model"><a class="header" href="#concurrency-model">Concurrency Model</a></h2>
+<h3 id="asyncawait"><a class="header" href="#asyncawait">Async/Await</a></h3>
+<p>Starkbiter uses Tokio for async execution:</p>
+<pre><pre class="playground"><code class="language-rust">#[tokio::main]
+async fn main() -&gt; Result&lt;()&gt; {
+    let env = Environment::builder().build().await?;
+    // Concurrent operations
+    let (r1, r2) = tokio::join!(
+        operation1(&amp;env),
+        operation2(&amp;env),
+    );
+    Ok(())
+}</code></pre></pre>
+<h3 id="agent-concurrency"><a class="header" href="#agent-concurrency">Agent Concurrency</a></h3>
+<p>Multiple agents can execute concurrently:</p>
+<ul>
+<li>Coordinated by the engine</li>
+<li>Shared state through the world</li>
+<li>Message passing for communication</li>
+</ul>
+<h2 id="error-handling"><a class="header" href="#error-handling">Error Handling</a></h2>
+<h3 id="error-types"><a class="header" href="#error-types">Error Types</a></h3>
+<p>Starkbiter defines structured errors:</p>
+<ul>
+<li><code>EnvironmentError</code> - Environment setup and operation failures</li>
+<li><code>ContractError</code> - Contract deployment and interaction errors</li>
+<li><code>AgentError</code> - Agent execution failures</li>
+</ul>
+<h3 id="error-propagation"><a class="header" href="#error-propagation">Error Propagation</a></h3>
+<p>Errors use <code>anyhow</code> or <code>thiserror</code> for:</p>
+<ul>
+<li>Rich context</li>
+<li>Easy error chaining</li>
+<li>Flexible handling</li>
+</ul>
+<h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
+<ul>
+<li><a href="./environment.html">Environment</a> - Deep dive into the Environment API</li>
+<li><a href="./middleware.html">Middleware</a> - Understanding the middleware layer</li>
+<li><a href="./forking.html">Forking</a> - State forking from live networks</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../getting_started/examples.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../core_concepts/environment.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../getting_started/examples.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../core_concepts/environment.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

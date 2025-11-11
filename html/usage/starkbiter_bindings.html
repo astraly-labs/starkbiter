@@ -1,0 +1,521 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Starkbiter Bindings - Starkbiter Documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Starkbiter Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="starkbiter-bindings"><a class="header" href="#starkbiter-bindings">Starkbiter Bindings</a></h1>
+<p><code>starkbiter-bindings</code> provides pre-generated Rust bindings for common Starknet contracts, making it easy to interact with standard protocols in your simulations.</p>
+<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
+<p>The bindings crate includes:</p>
+<ul>
+<li>ERC20 token contracts</li>
+<li>Account contracts (Argent, OpenZeppelin)</li>
+<li>DEX protocols (Ekubo)</li>
+<li>Test utilities</li>
+</ul>
+<h2 id="installation"><a class="header" href="#installation">Installation</a></h2>
+<pre><code class="language-toml">[dependencies]
+starkbiter-bindings = "0.1"
+</code></pre>
+<h2 id="available-bindings"><a class="header" href="#available-bindings">Available Bindings</a></h2>
+<h3 id="erc20-tokens"><a class="header" href="#erc20-tokens">ERC20 Tokens</a></h3>
+<h4 id="standard-erc20"><a class="header" href="#standard-erc20">Standard ERC20</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use starkbiter_bindings::erc_20_mintable_oz0::ERC20;
+use starknet::core::types::Felt;
+
+// Deploy new token
+let token = ERC20::deploy(
+    &amp;account,
+    "My Token",          // name
+    "MTK",              // symbol
+    18,                 // decimals
+    Felt::from(1_000_000u64),  // initial supply
+    owner_address,      // recipient
+).await?;
+
+// Transfer tokens
+token.transfer(recipient, amount).await?;
+
+// Check balance
+let balance = token.balance_of(address).await?;
+
+// Approve spending
+token.approve(spender, amount).await?;
+
+// Check allowance
+let allowance = token.allowance(owner, spender).await?;
+<span class="boring">}</span></code></pre></pre>
+<h3 id="account-contracts"><a class="header" href="#account-contracts">Account Contracts</a></h3>
+<h4 id="argent-account"><a class="header" href="#argent-account">Argent Account</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use starkbiter_bindings::argent_account::ArgentAccount;
+
+let account = ArgentAccount::new(account_address, &amp;provider);
+
+// Execute transaction
+account.execute(calls).await?;
+
+// Get account info
+let owner = account.get_owner().await?;
+<span class="boring">}</span></code></pre></pre>
+<h4 id="openzeppelin-account"><a class="header" href="#openzeppelin-account">OpenZeppelin Account</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use starkbiter_bindings::open_zeppelin_account::OZAccount;
+
+let account = OZAccount::new(account_address, &amp;provider);
+<span class="boring">}</span></code></pre></pre>
+<h3 id="dex-protocols"><a class="header" href="#dex-protocols">DEX Protocols</a></h3>
+<h4 id="ekubo-core"><a class="header" href="#ekubo-core">Ekubo Core</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use starkbiter_bindings::ekubo_core::EkuboCore;
+
+let ekubo = EkuboCore::new(ekubo_address, &amp;account);
+
+// Get pool info
+let pool = ekubo.get_pool(token0, token1, fee).await?;
+
+// Swap tokens
+ekubo.swap(
+    token_in,
+    token_out,
+    amount,
+    min_amount_out,
+    recipient
+).await?;
+<span class="boring">}</span></code></pre></pre>
+<h3 id="test-contracts"><a class="header" href="#test-contracts">Test Contracts</a></h3>
+<h4 id="counter"><a class="header" href="#counter">Counter</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use starkbiter_bindings::contracts_counter::Counter;
+
+let counter = Counter::deploy(&amp;account).await?;
+
+counter.increment().await?;
+let value = counter.get_value().await?;
+assert_eq!(value, Felt::from(1u64));
+<span class="boring">}</span></code></pre></pre>
+<h4 id="uservalues"><a class="header" href="#uservalues">UserValues</a></h4>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use starkbiter_bindings::contracts_user_values::UserValues;
+
+let contract = UserValues::deploy(&amp;account).await?;
+
+contract.set_value(key, value).await?;
+let retrieved = contract.get_value(key).await?;
+<span class="boring">}</span></code></pre></pre>
+<h2 id="common-patterns"><a class="header" href="#common-patterns">Common Patterns</a></h2>
+<h3 id="deploy-and-initialize-token"><a class="header" href="#deploy-and-initialize-token">Deploy and Initialize Token</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn setup_token(account: &amp;Account) -&gt; Result&lt;ERC20&gt; {
+    let token = ERC20::deploy(
+        account,
+        "Test Token",
+        "TEST",
+        18,
+        Felt::from(1_000_000_000u64),
+        account.address(),
+    ).await?;
+    
+    Ok(token)
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="transfer-between-accounts"><a class="header" href="#transfer-between-accounts">Transfer Between Accounts</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn transfer_tokens(
+    token: &amp;ERC20,
+    from: &amp;Account,
+    to: Felt,
+    amount: Felt
+) -&gt; Result&lt;()&gt; {
+    token.transfer(to, amount).await?;
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="approve-and-transfer-from"><a class="header" href="#approve-and-transfer-from">Approve and Transfer From</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Owner approves spender
+token.approve(spender_address, amount).await?;
+
+// Spender transfers from owner
+let spender_token = ERC20::new(token.address(), &amp;spender_account);
+spender_token.transfer_from(
+    owner_address,
+    recipient,
+    amount
+).await?;
+<span class="boring">}</span></code></pre></pre>
+<h2 id="integration-with-simulations"><a class="header" href="#integration-with-simulations">Integration with Simulations</a></h2>
+<h3 id="token-distribution-agent"><a class="header" href="#token-distribution-agent">Token Distribution Agent</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct TokenDistributor {
+    token: ERC20,
+    recipients: Vec&lt;Felt&gt;,
+}
+
+impl Behavior for TokenDistributor {
+    async fn execute(&amp;mut self, world: &amp;World) -&gt; Result&lt;()&gt; {
+        let amount = Felt::from(100u64);
+        
+        for recipient in &amp;self.recipients {
+            self.token.transfer(*recipient, amount).await?;
+        }
+        
+        Ok(())
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="dex-trader-agent"><a class="header" href="#dex-trader-agent">DEX Trader Agent</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct DexTrader {
+    ekubo: EkuboCore,
+    token_in: Felt,
+    token_out: Felt,
+}
+
+impl Behavior for DexTrader {
+    async fn execute(&amp;mut self, world: &amp;World) -&gt; Result&lt;()&gt; {
+        let amount = Felt::from(1000u64);
+        
+        self.ekubo.swap(
+            self.token_in,
+            self.token_out,
+            amount,
+            Felt::ZERO,
+            world.account().address()
+        ).await?;
+        
+        Ok(())
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="creating-custom-bindings"><a class="header" href="#creating-custom-bindings">Creating Custom Bindings</a></h2>
+<p>To generate bindings for your own contracts:</p>
+<ol>
+<li>Compile your Cairo contract to Sierra 1.0</li>
+<li>Place the JSON file in <code>contracts/</code></li>
+<li>Run <code>starkbiter bind</code></li>
+</ol>
+<pre><code class="language-bash"># Copy contract
+cp target/dev/my_contract.contract_class.json contracts/
+
+# Generate bindings
+starkbiter bind
+
+# Use in code
+use crate::bindings::my_contract::MyContract;
+</code></pre>
+<p>See <a href="./starkbiter_cli.html">Starkbiter CLI</a> for more details.</p>
+<h2 id="contract-addresses"><a class="header" href="#contract-addresses">Contract Addresses</a></h2>
+<p>The bindings work with any deployment. You specify addresses when creating instances:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Use with mainnet deployment
+let usdc = ERC20::new(
+    Felt::from_hex("0x053c91253bc9682c04929ca02ed00b3e423f6710d2ee7e0d5ebb06f3ecf368a8")?,
+    &amp;account
+);
+
+// Or with your own deployment
+let token = ERC20::deploy(&amp;account, ...).await?;
+let token_address = token.address();
+<span class="boring">}</span></code></pre></pre>
+<h2 id="type-safety"><a class="header" href="#type-safety">Type Safety</a></h2>
+<p>All bindings provide type-safe interfaces:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Compile-time type checking
+let balance: Felt = token.balance_of(address).await?;
+
+// Method signatures match contract ABI
+token.transfer(recipient: Felt, amount: Felt).await?;
+<span class="boring">}</span></code></pre></pre>
+<h2 id="error-handling"><a class="header" href="#error-handling">Error Handling</a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use anyhow::Result;
+
+async fn safe_transfer(token: &amp;ERC20, to: Felt, amount: Felt) -&gt; Result&lt;()&gt; {
+    match token.transfer(to, amount).await {
+        Ok(_) =&gt; {
+            println!("Transfer successful");
+            Ok(())
+        }
+        Err(e) =&gt; {
+            eprintln!("Transfer failed: {}", e);
+            Err(e.into())
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="testing-with-bindings"><a class="header" href="#testing-with-bindings">Testing with Bindings</a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[tokio::test]
+async fn test_erc20_transfer() {
+    let env = Environment::builder().build().await?;
+    let account = env.create_account().await?;
+    
+    // Deploy token
+    let token = ERC20::deploy(
+        &amp;account,
+        "Test",
+        "TST",
+        18,
+        Felt::from(1_000_000u64),
+        account.address(),
+    ).await?;
+    
+    // Test transfer
+    let recipient = Felt::from(999u64);
+    let amount = Felt::from(1000u64);
+    
+    token.transfer(recipient, amount).await?;
+    
+    let balance = token.balance_of(recipient).await?;
+    assert_eq!(balance, amount);
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
+<ul>
+<li><a href="./starkbiter_cli.html">Starkbiter CLI</a> - Generate custom bindings</li>
+<li><a href="../getting_started/quick_start.html">Quick Start</a> - Use bindings in simulations</li>
+<li><a href="../getting_started/examples.html">Examples</a> - See bindings in action</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../usage/starkbiter_macros.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../advanced/testing_strategies.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../usage/starkbiter_macros.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../advanced/testing_strategies.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

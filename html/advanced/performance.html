@@ -1,0 +1,437 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Performance Optimization - Starkbiter Documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Starkbiter Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="performance-optimization"><a class="header" href="#performance-optimization">Performance Optimization</a></h1>
+<p>Techniques for optimizing the performance of your Starkbiter simulations and tests.</p>
+<h2 id="general-optimization"><a class="header" href="#general-optimization">General Optimization</a></h2>
+<h3 id="parallel-execution"><a class="header" href="#parallel-execution">Parallel Execution</a></h3>
+<p>Run independent tests in parallel:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[tokio::test(flavor = "multi_thread", worker_threads = 4)]
+async fn parallel_tests() {
+    // Tests run concurrently
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="batch-operations"><a class="header" href="#batch-operations">Batch Operations</a></h3>
+<p>Group operations to reduce overhead:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use tokio::try_join;
+
+// Instead of sequential
+let balance1 = env.get_balance(addr1).await?;
+let balance2 = env.get_balance(addr2).await?;
+let balance3 = env.get_balance(addr3).await?;
+
+// Use concurrent
+let (balance1, balance2, balance3) = try_join!(
+    env.get_balance(addr1),
+    env.get_balance(addr2),
+    env.get_balance(addr3),
+)?;
+<span class="boring">}</span></code></pre></pre>
+<h3 id="reuse-environments"><a class="header" href="#reuse-environments">Reuse Environments</a></h3>
+<p>Reuse environments when possible:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Expensive: create new environment for each test
+#[tokio::test]
+async fn test1() {
+    let env = Environment::builder().build().await?;
+    // ...
+}
+
+// Better: use fixtures with snapshots
+async fn test_fixture() -&gt; (Environment, SnapshotId) {
+    let env = Environment::builder().build().await?;
+    // Setup common state
+    let snapshot = env.snapshot().await?;
+    (env, snapshot)
+}
+
+#[tokio::test]
+async fn test1() {
+    let (env, snapshot) = test_fixture().await;
+    // ... test ...
+    env.restore(snapshot).await?;
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="environment-optimization"><a class="header" href="#environment-optimization">Environment Optimization</a></h2>
+<h3 id="disable-unnecessary-features"><a class="header" href="#disable-unnecessary-features">Disable Unnecessary Features</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let env = Environment::builder()
+    .with_minimal_setup()  // Skip unnecessary initialization
+    .build()
+    .await?;
+<span class="boring">}</span></code></pre></pre>
+<h3 id="control-block-production"><a class="header" href="#control-block-production">Control Block Production</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Manual block production for testing
+let env = Environment::builder()
+    .with_block_time(0)  // Manual mode
+    .build()
+    .await?;
+
+// Only mine when needed
+env.mine_block().await?;
+<span class="boring">}</span></code></pre></pre>
+<h2 id="agent-optimization"><a class="header" href="#agent-optimization">Agent Optimization</a></h2>
+<h3 id="efficient-state-management"><a class="header" href="#efficient-state-management">Efficient State Management</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Bad: Deep cloning on every execution
+struct InefficientBehavior {
+    large_state: Vec&lt;LargeData&gt;, // Cloned frequently
+}
+
+// Good: Use references and Arc
+struct EfficientBehavior {
+    large_state: Arc&lt;Vec&lt;LargeData&gt;&gt;, // Shared reference
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="lazy-evaluation"><a class="header" href="#lazy-evaluation">Lazy Evaluation</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct LazyBehavior {
+    cached_data: Option&lt;ExpensiveData&gt;,
+}
+
+impl Behavior for LazyBehavior {
+    async fn execute(&amp;mut self, world: &amp;World) -&gt; Result&lt;()&gt; {
+        // Only compute when needed
+        let data = match &amp;self.cached_data {
+            Some(d) =&gt; d,
+            None =&gt; {
+                let d = self.compute_expensive_data(world).await?;
+                self.cached_data = Some(d);
+                self.cached_data.as_ref().unwrap()
+            }
+        };
+        
+        self.use_data(data).await?;
+        Ok(())
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="memory-management"><a class="header" href="#memory-management">Memory Management</a></h2>
+<h3 id="resource-cleanup"><a class="header" href="#resource-cleanup">Resource Cleanup</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl Drop for MyAgent {
+    fn drop(&amp;mut self) {
+        // Clean up resources
+        self.close_connections();
+        self.flush_caches();
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="limit-cache-sizes"><a class="header" href="#limit-cache-sizes">Limit Cache Sizes</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use lru::LruCache;
+
+struct CachedBehavior {
+    cache: LruCache&lt;Key, Value&gt;,
+}
+
+impl CachedBehavior {
+    fn new() -&gt; Self {
+        Self {
+            cache: LruCache::new(1000.try_into().unwrap()), // Limit cache size
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="profiling"><a class="header" href="#profiling">Profiling</a></h2>
+<h3 id="measure-performance"><a class="header" href="#measure-performance">Measure Performance</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::time::Instant;
+
+async fn measure_performance&lt;F, T&gt;(name: &amp;str, f: F) -&gt; T
+where
+    F: Future&lt;Output = T&gt;,
+{
+    let start = Instant::now();
+    let result = f.await;
+    let elapsed = start.elapsed();
+    println!("{} took {:?}", name, elapsed);
+    result
+}
+
+// Usage
+let result = measure_performance("deploy_contract", async {
+    deploy_contract(&amp;account).await
+}).await?;
+<span class="boring">}</span></code></pre></pre>
+<h3 id="profile-with-tokio-console"><a class="header" href="#profile-with-tokio-console">Profile with tokio-console</a></h3>
+<pre><pre class="playground"><code class="language-rust">// Add to Cargo.toml
+// [dependencies]
+// console-subscriber = "0.1"
+
+// In main
+#[tokio::main]
+async fn main() {
+    console_subscriber::init();
+    // ... your code
+}</code></pre></pre>
+<h2 id="benchmarking"><a class="header" href="#benchmarking">Benchmarking</a></h2>
+<p>Use Criterion for benchmarking:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use criterion::{black_box, criterion_group, criterion_main, Criterion};
+
+fn bench_contract_call(c: &amp;mut Criterion) {
+    let rt = tokio::runtime::Runtime::new().unwrap();
+    
+    c.bench_function("contract_call", |b| {
+        b.to_async(&amp;rt).iter(|| async {
+            let env = Environment::builder().build().await.unwrap();
+            let account = env.create_account().await.unwrap();
+            let contract = deploy_contract(&amp;account).await.unwrap();
+            
+            black_box(contract.call_method().await.unwrap())
+        });
+    });
+}
+
+criterion_group!(benches, bench_contract_call);
+criterion_main!(benches);
+<span class="boring">}</span></code></pre></pre>
+<h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
+<ul>
+<li><a href="./testing_strategies.html">Testing Strategies</a> - Effective testing</li>
+<li><a href="./simulation_techniques.html">Simulation Techniques</a> - Advanced simulations</li>
+<li><a href="./anomaly_detection.html">Anomaly Detection</a> - Detecting issues</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../advanced/anomaly_detection.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../contributing/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../advanced/anomaly_detection.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../contributing/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

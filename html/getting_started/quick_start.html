@@ -1,0 +1,404 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Quick Start - Starkbiter Documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Starkbiter Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="quick-start"><a class="header" href="#quick-start">Quick Start</a></h1>
+<p>This guide will walk you through creating your first Starkbiter simulation in just a few minutes.</p>
+<h2 id="your-first-simulation"><a class="header" href="#your-first-simulation">Your First Simulation</a></h2>
+<p>Let's create a simple simulation that deploys and interacts with an ERC20 token contract on Starknet.</p>
+<h3 id="step-1-create-a-new-project"><a class="header" href="#step-1-create-a-new-project">Step 1: Create a New Project</a></h3>
+<pre><code class="language-bash">cargo new my-starkbiter-sim
+cd my-starkbiter-sim
+</code></pre>
+<h3 id="step-2-add-dependencies"><a class="header" href="#step-2-add-dependencies">Step 2: Add Dependencies</a></h3>
+<p>Edit your <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[package]
+name = "my-starkbiter-sim"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+starkbiter-core = "0.1"
+starkbiter-bindings = "0.1"
+starknet = "0.11"
+tokio = { version = "1.0", features = ["full"] }
+anyhow = "1.0"
+</code></pre>
+<h3 id="step-3-create-an-environment"><a class="header" href="#step-3-create-an-environment">Step 3: Create an Environment</a></h3>
+<p>Replace the contents of <code>src/main.rs</code>:</p>
+<pre><pre class="playground"><code class="language-rust">use anyhow::Result;
+use starkbiter_core::environment::Environment;
+use starknet::core::types::Felt;
+
+#[tokio::main]
+async fn main() -&gt; Result&lt;()&gt; {
+    // Create a new Starknet environment
+    let env = Environment::builder()
+        .with_chain_id(Felt::from_hex("0x534e5f5345504f4c4941").unwrap()) // Sepolia testnet
+        .build()
+        .await?;
+
+    println!("✅ Starkbiter environment created!");
+    
+    // Get the current block number
+    let block_number = env.get_block_number().await?;
+    println!("📦 Current block: {}", block_number);
+
+    Ok(())
+}</code></pre></pre>
+<h3 id="step-4-run-your-simulation"><a class="header" href="#step-4-run-your-simulation">Step 4: Run Your Simulation</a></h3>
+<pre><code class="language-bash">cargo run
+</code></pre>
+<p>You should see:</p>
+<pre><code>✅ Starkbiter environment created!
+📦 Current block: 0
+</code></pre>
+<h2 id="adding-contract-interaction"><a class="header" href="#adding-contract-interaction">Adding Contract Interaction</a></h2>
+<p>Let's expand the example to deploy and interact with an ERC20 contract.</p>
+<h3 id="step-1-generate-contract-bindings"><a class="header" href="#step-1-generate-contract-bindings">Step 1: Generate Contract Bindings</a></h3>
+<p>First, you'll need a compiled Starknet contract. For this example, we'll use the pre-generated bindings from <code>starkbiter-bindings</code>.</p>
+<p>Update your <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[dependencies]
+starkbiter-core = "0.1"
+starkbiter-bindings = "0.1"
+starknet = "0.11"
+tokio = { version = "1.0", features = ["full"] }
+anyhow = "1.0"
+</code></pre>
+<h3 id="step-2-deploy-and-interact"><a class="header" href="#step-2-deploy-and-interact">Step 2: Deploy and Interact</a></h3>
+<p>Update <code>src/main.rs</code>:</p>
+<pre><pre class="playground"><code class="language-rust">use anyhow::Result;
+use starkbiter_core::environment::Environment;
+use starkbiter_bindings::erc_20_mintable_oz0::ERC20;
+use starknet::core::types::Felt;
+
+#[tokio::main]
+async fn main() -&gt; Result&lt;()&gt; {
+    // Create environment
+    let env = Environment::builder()
+        .with_chain_id(Felt::from_hex("0x534e5f5345504f4c4941").unwrap())
+        .build()
+        .await?;
+
+    println!("✅ Environment created");
+
+    // Create an account
+    let private_key = Felt::from_hex("0x1234").unwrap();
+    let account_address = Felt::from_hex("0x1").unwrap();
+    
+    let account = env.create_single_owner_account(
+        private_key,
+        account_address
+    ).await?;
+
+    println!("✅ Account created: {:#x}", account_address);
+
+    // In a real scenario, you would:
+    // 1. Declare the contract class
+    // 2. Deploy an instance
+    // 3. Interact with the deployed contract
+
+    Ok(())
+}</code></pre></pre>
+<h2 id="working-with-the-example"><a class="header" href="#working-with-the-example">Working with the Example</a></h2>
+<p>Starkbiter comes with a complete example. Let's run it:</p>
+<pre><code class="language-bash"># Clone the repository
+git clone https://github.com/astraly-labs/starkbiter
+cd starkbiter
+
+# Run the minter example
+cargo run --example minter simulate ./examples/minter/config.toml -vvvv
+</code></pre>
+<p>This runs a simulation with:</p>
+<ul>
+<li>A <strong>Token Admin</strong> agent that creates ERC20 tokens</li>
+<li>A <strong>Token Requester</strong> agent that requests token minting</li>
+<li>Event-based communication between agents</li>
+<li>Automated token minting loop</li>
+</ul>
+<h2 id="understanding-the-example"><a class="header" href="#understanding-the-example">Understanding the Example</a></h2>
+<p>The minter example demonstrates:</p>
+<ol>
+<li><strong>Environment setup</strong> - Creating a sandboxed Starknet instance</li>
+<li><strong>Agent creation</strong> - Building autonomous agents with behaviors</li>
+<li><strong>Event handling</strong> - Responding to blockchain events</li>
+<li><strong>Inter-agent messaging</strong> - Communication between agents</li>
+<li><strong>Contract interaction</strong> - Deploying and calling contracts</li>
+</ol>
+<h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
+<p>Now that you've created your first simulation, explore:</p>
+<ul>
+<li><strong><a href="./examples.html">Examples</a></strong> - Learn from more complex examples</li>
+<li><strong><a href="../core_concepts/architecture.html">Core Concepts</a></strong> - Understand Starkbiter's architecture</li>
+<li><strong><a href="../usage/index.html">Usage Guide</a></strong> - Deep dive into each crate</li>
+<li><strong><a href="../advanced/simulation_techniques.html">Advanced Topics</a></strong> - Advanced simulation techniques</li>
+</ul>
+<h2 id="tips"><a class="header" href="#tips">Tips</a></h2>
+<h3 id="logging"><a class="header" href="#logging">Logging</a></h3>
+<p>Enable detailed logging with the <code>-v</code> flags:</p>
+<pre><code class="language-bash">cargo run -- -v    # Info level
+cargo run -- -vv   # Debug level
+cargo run -- -vvv  # Trace level
+</code></pre>
+<h3 id="development-mode"><a class="header" href="#development-mode">Development Mode</a></h3>
+<p>Use <code>cargo watch</code> for automatic recompilation:</p>
+<pre><code class="language-bash">cargo install cargo-watch
+cargo watch -x run
+</code></pre>
+<h3 id="testing"><a class="header" href="#testing">Testing</a></h3>
+<p>Write tests for your simulations:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[tokio::test]
+async fn test_token_minting() -&gt; Result&lt;()&gt; {
+    let env = Environment::builder().build().await?;
+    // Your test code here
+    Ok(())
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h2>
+<h3 id="environment-not-starting"><a class="header" href="#environment-not-starting">Environment Not Starting</a></h3>
+<p>Make sure all dependencies are installed correctly:</p>
+<pre><code class="language-bash">cargo clean
+cargo build
+</code></pre>
+<h3 id="contract-deployment-failures"><a class="header" href="#contract-deployment-failures">Contract Deployment Failures</a></h3>
+<p>Check that:</p>
+<ul>
+<li>Your contract is properly compiled to Sierra 1.0</li>
+<li>The contract JSON is in the correct location</li>
+<li>You have the necessary permissions</li>
+</ul>
+<h3 id="getting-help"><a class="header" href="#getting-help">Getting Help</a></h3>
+<ul>
+<li>Check the <a href="https://docs.rs/starkbiter-core/">API Documentation</a></li>
+<li>Browse <a href="https://github.com/astraly-labs/starkbiter/tree/main/examples">Examples</a></li>
+<li>Ask on <a href="https://github.com/astraly-labs/starkbiter/discussions">GitHub Discussions</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../getting_started/installation.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../getting_started/examples.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../getting_started/installation.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../getting_started/examples.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

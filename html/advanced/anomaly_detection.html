@@ -1,0 +1,589 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Anomaly Detection - Starkbiter Documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Starkbiter Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="anomaly-detection"><a class="header" href="#anomaly-detection">Anomaly Detection</a></h1>
+<p>Use Starkbiter to detect anomalies and vulnerabilities in smart contract systems through simulation-based analysis.</p>
+<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
+<p>Anomaly detection in Starkbiter involves:</p>
+<ul>
+<li>Defining normal system behavior</li>
+<li>Running simulations with various conditions</li>
+<li>Identifying deviations from expected behavior</li>
+<li>Analyzing root causes of anomalies</li>
+</ul>
+<h2 id="statistical-anomaly-detection"><a class="header" href="#statistical-anomaly-detection">Statistical Anomaly Detection</a></h2>
+<h3 id="baseline-behavior"><a class="header" href="#baseline-behavior">Baseline Behavior</a></h3>
+<p>Establish normal behavior patterns:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct BehaviorBaseline {
+    mean_gas_usage: f64,
+    std_gas_usage: f64,
+    mean_execution_time: f64,
+    typical_event_counts: HashMap&lt;String, f64&gt;,
+}
+
+impl BehaviorBaseline {
+    async fn establish(env: &amp;Environment, runs: usize) -&gt; Result&lt;Self&gt; {
+        let mut gas_samples = vec![];
+        let mut time_samples = vec![];
+        
+        for _ in 0..runs {
+            let start = Instant::now();
+            let result = run_normal_simulation(env).await?;
+            
+            gas_samples.push(result.gas_used as f64);
+            time_samples.push(start.elapsed().as_secs_f64());
+        }
+        
+        Ok(Self {
+            mean_gas_usage: mean(&amp;gas_samples),
+            std_gas_usage: std_dev(&amp;gas_samples),
+            mean_execution_time: mean(&amp;time_samples),
+            typical_event_counts: result.event_counts,
+        })
+    }
+    
+    fn is_anomalous(&amp;self, observation: &amp;Observation) -&gt; bool {
+        let z_score = (observation.gas_used as f64 - self.mean_gas_usage)
+            / self.std_gas_usage;
+        
+        z_score.abs() &gt; 3.0  // 3-sigma rule
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="detecting-outliers"><a class="header" href="#detecting-outliers">Detecting Outliers</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn detect_gas_anomalies(
+    protocol: &amp;Protocol,
+    operations: Vec&lt;Operation&gt;,
+) -&gt; Result&lt;Vec&lt;Anomaly&gt;&gt; {
+    let baseline = BehaviorBaseline::establish(&amp;protocol.env, 100).await?;
+    let mut anomalies = vec![];
+    
+    for op in operations {
+        let result = protocol.execute(op).await?;
+        
+        if baseline.is_anomalous(&amp;result) {
+            anomalies.push(Anomaly {
+                operation: op,
+                gas_used: result.gas_used,
+                expected_gas: baseline.mean_gas_usage,
+                deviation: (result.gas_used as f64 - baseline.mean_gas_usage)
+                    / baseline.mean_gas_usage,
+            });
+        }
+    }
+    
+    Ok(anomalies)
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="invariant-violation-detection"><a class="header" href="#invariant-violation-detection">Invariant Violation Detection</a></h2>
+<h3 id="define-invariants"><a class="header" href="#define-invariants">Define Invariants</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct ProtocolInvariants {
+    rules: Vec&lt;Box&lt;dyn Invariant&gt;&gt;,
+}
+
+trait Invariant {
+    async fn check(&amp;self, world: &amp;World) -&gt; Result&lt;bool&gt;;
+    fn description(&amp;self) -&gt; &amp;str;
+}
+
+// Example: Total supply invariant
+struct TotalSupplyInvariant {
+    token_address: Felt,
+    expected_supply: Felt,
+}
+
+impl Invariant for TotalSupplyInvariant {
+    async fn check(&amp;self, world: &amp;World) -&gt; Result&lt;bool&gt; {
+        let token = ERC20::new(self.token_address, &amp;world.account());
+        let actual = token.total_supply().await?;
+        Ok(actual == self.expected_supply)
+    }
+    
+    fn description(&amp;self) -&gt; &amp;str {
+        "Total token supply must remain constant"
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="monitor-invariants"><a class="header" href="#monitor-invariants">Monitor Invariants</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn monitor_invariants(
+    world: &amp;World,
+    invariants: &amp;ProtocolInvariants,
+) -&gt; Result&lt;Vec&lt;Violation&gt;&gt; {
+    let mut violations = vec![];
+    
+    for invariant in &amp;invariants.rules {
+        if !invariant.check(world).await? {
+            violations.push(Violation {
+                rule: invariant.description().to_string(),
+                timestamp: world.get_timestamp().await?,
+                block: world.get_block_number().await?,
+            });
+        }
+    }
+    
+    Ok(violations)
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="behavioral-analysis"><a class="header" href="#behavioral-analysis">Behavioral Analysis</a></h2>
+<h3 id="track-agent-behavior"><a class="header" href="#track-agent-behavior">Track Agent Behavior</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct BehaviorMonitor {
+    agent_patterns: HashMap&lt;String, BehaviorPattern&gt;,
+}
+
+impl BehaviorMonitor {
+    fn record_action(&amp;mut self, agent_id: &amp;str, action: Action) {
+        let pattern = self.agent_patterns
+            .entry(agent_id.to_string())
+            .or_insert(BehaviorPattern::new());
+        
+        pattern.add_action(action);
+    }
+    
+    fn detect_suspicious_behavior(&amp;self) -&gt; Vec&lt;Alert&gt; {
+        let mut alerts = vec![];
+        
+        for (agent_id, pattern) in &amp;self.agent_patterns {
+            // Detect unusual frequency
+            if pattern.action_rate() &gt; pattern.typical_rate() * 10.0 {
+                alerts.push(Alert::UnusualFrequency {
+                    agent: agent_id.clone(),
+                    rate: pattern.action_rate(),
+                });
+            }
+            
+            // Detect unusual amounts
+            if pattern.max_amount() &gt; pattern.typical_amount() * 100.0 {
+                alerts.push(Alert::UnusualAmount {
+                    agent: agent_id.clone(),
+                    amount: pattern.max_amount(),
+                });
+            }
+        }
+        
+        alerts
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="flash-loan-attack-detection"><a class="header" href="#flash-loan-attack-detection">Flash Loan Attack Detection</a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct FlashLoanDetector {
+    threshold_borrow: u64,
+    threshold_profit: u64,
+}
+
+impl FlashLoanDetector {
+    async fn monitor_block(&amp;self, world: &amp;World) -&gt; Result&lt;Vec&lt;AttackAlert&gt;&gt; {
+        let mut alerts = vec![];
+        let events = world.get_recent_events().await?;
+        
+        // Group events by transaction
+        let tx_groups = self.group_by_transaction(events);
+        
+        for (tx_hash, tx_events) in tx_groups {
+            // Look for borrow-repay in same transaction
+            let borrowed = self.find_borrows(&amp;tx_events);
+            let repaid = self.find_repayments(&amp;tx_events);
+            
+            if !borrowed.is_empty() &amp;&amp; !repaid.is_empty() {
+                let total_borrowed: u64 = borrowed.iter().map(|b| b.amount).sum();
+                let profit = self.calculate_profit(&amp;tx_events);
+                
+                if total_borrowed &gt; self.threshold_borrow
+                    &amp;&amp; profit &gt; self.threshold_profit {
+                    alerts.push(AttackAlert::FlashLoan {
+                        tx: tx_hash,
+                        borrowed: total_borrowed,
+                        profit,
+                    });
+                }
+            }
+        }
+        
+        Ok(alerts)
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="price-manipulation-detection"><a class="header" href="#price-manipulation-detection">Price Manipulation Detection</a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct PriceManipulationDetector {
+    price_impact_threshold: f64,
+}
+
+impl PriceManipulationDetector {
+    async fn detect(&amp;self, pool: &amp;Pool) -&gt; Result&lt;Option&lt;ManipulationAlert&gt;&gt; {
+        let snapshot = pool.snapshot().await?;
+        
+        // Simulate large trade
+        let large_trade = pool.max_trade_size() * 0.5;
+        let price_before = pool.get_price().await?;
+        
+        pool.simulate_swap(large_trade).await?;
+        let price_after = pool.get_price().await?;
+        
+        let price_impact = (price_after - price_before) / price_before;
+        
+        // Restore state
+        pool.restore(snapshot).await?;
+        
+        if price_impact.abs() &gt; self.price_impact_threshold {
+            Ok(Some(ManipulationAlert {
+                pool: pool.address(),
+                price_impact,
+                vulnerable_to_manipulation: true,
+            }))
+        } else {
+            Ok(None)
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="machine-learning-based-detection"><a class="header" href="#machine-learning-based-detection">Machine Learning-Based Detection</a></h2>
+<h3 id="feature-extraction"><a class="header" href="#feature-extraction">Feature Extraction</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct TransactionFeatures {
+    gas_used: f64,
+    value_transferred: f64,
+    num_calls: f64,
+    unique_contracts: f64,
+    loops_detected: bool,
+    reentrancy_risk: f64,
+}
+
+impl TransactionFeatures {
+    async fn extract(tx: &amp;Transaction, world: &amp;World) -&gt; Result&lt;Self&gt; {
+        // Analyze transaction
+        let trace = world.trace_transaction(tx).await?;
+        
+        Ok(Self {
+            gas_used: trace.gas_used as f64,
+            value_transferred: trace.value_transferred as f64,
+            num_calls: trace.calls.len() as f64,
+            unique_contracts: trace.unique_contracts().len() as f64,
+            loops_detected: trace.has_loops(),
+            reentrancy_risk: trace.calculate_reentrancy_risk(),
+        })
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="anomaly-scoring"><a class="header" href="#anomaly-scoring">Anomaly Scoring</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct AnomalyDetector {
+    model: Box&lt;dyn AnomalyModel&gt;,
+}
+
+impl AnomalyDetector {
+    fn score(&amp;self, features: &amp;TransactionFeatures) -&gt; f64 {
+        self.model.predict_anomaly_score(features)
+    }
+    
+    fn classify(&amp;self, features: &amp;TransactionFeatures) -&gt; Classification {
+        let score = self.score(features);
+        
+        if score &gt; 0.9 {
+            Classification::HighRisk
+        } else if score &gt; 0.7 {
+            Classification::MediumRisk
+        } else {
+            Classification::Normal
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="reporting"><a class="header" href="#reporting">Reporting</a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct AnomalyReport {
+    anomalies: Vec&lt;Anomaly&gt;,
+    severity_distribution: HashMap&lt;Severity, usize&gt;,
+    recommendations: Vec&lt;String&gt;,
+}
+
+impl AnomalyReport {
+    fn generate(detections: Vec&lt;Detection&gt;) -&gt; Self {
+        let mut anomalies = vec![];
+        let mut severity_dist = HashMap::new();
+        
+        for detection in detections {
+            let anomaly = Anomaly::from(detection);
+            *severity_dist.entry(anomaly.severity).or_insert(0) += 1;
+            anomalies.push(anomaly);
+        }
+        
+        let recommendations = Self::generate_recommendations(&amp;anomalies);
+        
+        Self {
+            anomalies,
+            severity_distribution: severity_dist,
+            recommendations,
+        }
+    }
+    
+    fn to_markdown(&amp;self) -&gt; String {
+        // Generate markdown report
+        format!(
+            "# Anomaly Detection Report\n\n\
+             # Summary\n\
+             - Total anomalies: {}\n\
+             - Critical: {}\n\
+             - High: {}\n\
+             - Medium: {}\n\
+             - Low: {}\n\n\
+             # Recommendations\n{}\n",
+            self.anomalies.len(),
+            self.severity_distribution.get(&amp;Severity::Critical).unwrap_or(&amp;0),
+            self.severity_distribution.get(&amp;Severity::High).unwrap_or(&amp;0),
+            self.severity_distribution.get(&amp;Severity::Medium).unwrap_or(&amp;0),
+            self.severity_distribution.get(&amp;Severity::Low).unwrap_or(&amp;0),
+            self.recommendations.join("\n"),
+        )
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
+<ul>
+<li><a href="./testing_strategies.html">Testing Strategies</a> - Testing approaches</li>
+<li><a href="./simulation_techniques.html">Simulation Techniques</a> - Simulation patterns</li>
+<li><a href="./performance.html">Performance Optimization</a> - Optimizing detection</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../advanced/simulation_techniques.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../advanced/performance.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../advanced/simulation_techniques.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../advanced/performance.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

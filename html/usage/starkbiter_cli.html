@@ -1,0 +1,380 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Starkbiter CLI - Starkbiter Documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Starkbiter Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="starkbiter-cli"><a class="header" href="#starkbiter-cli">Starkbiter CLI</a></h1>
+<p>The Starkbiter command-line interface provides tools for managing your projects and generating contract bindings.</p>
+<h2 id="installation"><a class="header" href="#installation">Installation</a></h2>
+<pre><code class="language-bash">cargo install starkbiter
+</code></pre>
+<h2 id="commands"><a class="header" href="#commands">Commands</a></h2>
+<h3 id="bind---generate-contract-bindings"><a class="header" href="#bind---generate-contract-bindings"><code>bind</code> - Generate Contract Bindings</a></h3>
+<p>Generate Rust bindings from Cairo contract JSON files using <code>cainome</code>.</p>
+<pre><code class="language-bash">starkbiter bind [OPTIONS]
+</code></pre>
+<p><strong>Options:</strong></p>
+<ul>
+<li><code>--contracts-dir &lt;DIR&gt;</code> - Directory containing contract JSON files (default: <code>./contracts</code>)</li>
+<li><code>--output-dir &lt;DIR&gt;</code> - Output directory for generated bindings (default: <code>./bindings/src</code>)</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><code class="language-bash"># Generate bindings for all contracts in ./contracts/
+starkbiter bind
+
+# Custom directories
+starkbiter bind --contracts-dir ./my-contracts --output-dir ./src/bindings
+</code></pre>
+<p><strong>Contract Format:</strong></p>
+<p>Your contract JSON files should be Sierra 1.0 compiled contracts with ABI:</p>
+<pre><code class="language-json">{
+  "sierra_program": [...],
+  "contract_class_version": "0.1.0",
+  "entry_points_by_type": {...},
+  "abi": [...]
+}
+</code></pre>
+<h3 id="init---initialize-a-new-project"><a class="header" href="#init---initialize-a-new-project"><code>init</code> - Initialize a New Project</a></h3>
+<p><em>(Under development)</em></p>
+<p>Create a new Starkbiter simulation project from a template.</p>
+<pre><code class="language-bash">starkbiter init &lt;project-name&gt;
+</code></pre>
+<h3 id="--help---show-help"><a class="header" href="#--help---show-help"><code>--help</code> - Show Help</a></h3>
+<p>Display help information:</p>
+<pre><code class="language-bash">starkbiter --help
+starkbiter bind --help
+</code></pre>
+<h2 id="workflow"><a class="header" href="#workflow">Workflow</a></h2>
+<h3 id="1-compile-your-contracts"><a class="header" href="#1-compile-your-contracts">1. Compile Your Contracts</a></h3>
+<p>First, compile your Cairo contracts to Sierra 1.0:</p>
+<pre><code class="language-bash">scarb build
+</code></pre>
+<p>This generates JSON files in <code>target/dev/</code>.</p>
+<h3 id="2-copy-contract-files"><a class="header" href="#2-copy-contract-files">2. Copy Contract Files</a></h3>
+<p>Copy the contract JSON files to your project:</p>
+<pre><code class="language-bash">mkdir contracts
+cp target/dev/my_contract.contract_class.json contracts/
+</code></pre>
+<h3 id="3-generate-bindings"><a class="header" href="#3-generate-bindings">3. Generate Bindings</a></h3>
+<p>Run the CLI to generate Rust bindings:</p>
+<pre><code class="language-bash">starkbiter bind
+</code></pre>
+<p>This creates Rust files in <code>bindings/src/</code> with typed interfaces for your contracts.</p>
+<h3 id="4-use-the-bindings"><a class="header" href="#4-use-the-bindings">4. Use the Bindings</a></h3>
+<p>Import and use the generated bindings in your code:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use crate::bindings::my_contract::MyContract;
+
+// Deploy
+let contract = MyContract::deploy(&amp;account, constructor_args).await?;
+
+// Call functions
+let result = contract.my_function(args).await?;
+<span class="boring">}</span></code></pre></pre>
+<h2 id="project-structure"><a class="header" href="#project-structure">Project Structure</a></h2>
+<p>A typical Starkbiter project structure:</p>
+<pre><code>my-project/
+├── Cargo.toml
+├── contracts/
+│   ├── MyContract.json
+│   └── MyToken.json
+├── bindings/
+│   ├── Cargo.toml
+│   └── src/
+│       ├── lib.rs
+│       ├── my_contract.rs
+│       └── my_token.rs
+├── src/
+│   ├── main.rs
+│   └── behaviors/
+│       ├── mod.rs
+│       └── trading.rs
+└── config.toml
+</code></pre>
+<h2 id="cargotoml-setup"><a class="header" href="#cargotoml-setup">Cargo.toml Setup</a></h2>
+<p>Add bindings crate as a dependency:</p>
+<pre><code class="language-toml">[package]
+name = "my-project"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+starkbiter-core = "0.1"
+starkbiter-engine = "0.1"
+my-bindings = { path = "./bindings" }
+tokio = { version = "1.0", features = ["full"] }
+anyhow = "1.0"
+</code></pre>
+<h2 id="tips"><a class="header" href="#tips">Tips</a></h2>
+<h3 id="automatic-regeneration"><a class="header" href="#automatic-regeneration">Automatic Regeneration</a></h3>
+<p>Use a build script or file watcher to regenerate bindings when contracts change:</p>
+<pre><code class="language-bash"># Using cargo-watch
+cargo watch -x "run --bin starkbiter -- bind"
+</code></pre>
+<h3 id="cicd-integration"><a class="header" href="#cicd-integration">CI/CD Integration</a></h3>
+<p>Add to your CI pipeline:</p>
+<pre><code class="language-yaml"># .github/workflows/ci.yml
+- name: Generate bindings
+  run: starkbiter bind
+  
+- name: Check bindings are up to date
+  run: git diff --exit-code bindings/
+</code></pre>
+<h3 id="multiple-contract-directories"><a class="header" href="#multiple-contract-directories">Multiple Contract Directories</a></h3>
+<p>Generate bindings from multiple directories:</p>
+<pre><code class="language-bash">starkbiter bind --contracts-dir ./core-contracts
+starkbiter bind --contracts-dir ./periphery-contracts
+</code></pre>
+<h2 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h2>
+<h3 id="binding-generation-fails"><a class="header" href="#binding-generation-fails">Binding Generation Fails</a></h3>
+<p><strong>Error:</strong> "Failed to parse contract JSON"</p>
+<p><strong>Solution:</strong> Ensure contracts are compiled with compatible Sierra version:</p>
+<pre><code class="language-bash">scarb build --release
+</code></pre>
+<h3 id="missing-dependencies"><a class="header" href="#missing-dependencies">Missing Dependencies</a></h3>
+<p><strong>Error:</strong> "cainome not found"</p>
+<p><strong>Solution:</strong> The CLI includes cainome, but ensure you have it in your dependencies:</p>
+<pre><code class="language-toml">[dependencies]
+cainome = "0.3"
+</code></pre>
+<h3 id="import-errors"><a class="header" href="#import-errors">Import Errors</a></h3>
+<p><strong>Error:</strong> "Cannot find module"</p>
+<p><strong>Solution:</strong> Check your <code>lib.rs</code> in bindings crate includes the generated modules:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub mod my_contract;
+pub mod my_token;
+<span class="boring">}</span></code></pre></pre>
+<h2 id="next-steps"><a class="header" href="#next-steps">Next Steps</a></h2>
+<ul>
+<li><a href="../getting_started/quick_start.html">Quick Start</a> - Build your first simulation</li>
+<li><a href="../getting_started/examples.html">Examples</a> - See bindings in action</li>
+<li><a href="./starkbiter_bindings.html">Starkbiter Bindings</a> - Pre-generated bindings</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../usage/starkbiter_engine/configuration.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../usage/starkbiter_macros.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../usage/starkbiter_engine/configuration.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../usage/starkbiter_macros.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>
