@@ -12,7 +12,6 @@ katex = true
 [preprocessor.katex]
 after = ["links"]
 # KaTeX options.
-output = "html"
 leqno = false
 fleqn = false
 throw-on-error = true
