@@ -28,7 +28,8 @@ The Starkbiter workspace has five crates:
 - `starkbiter-bindings`: A lib crate containing bindings for utility smart contracts used for testing and development.
 
 ## Book
-TODO: Does not exist yet
+
+https://astraly-labs.github.io/starkbiter/
 
 ## Motivation
 Starkbiter was adapted from [Arbiter](https://github.com/harnesslabs/arbiter) code to allow you to work with smart contracts in a stateful sandbox and thus design agents that can be used alongside the contracts.
