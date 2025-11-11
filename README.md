@@ -10,7 +10,6 @@
 > Expanding the Starknet tooling ecosystem.
 
 ![Github Actions](https://github.com/astraly-labs/starkbiter/workflows/test/badge.svg)
-![Twitter Badge](https://badgen.net/badge/icon/twitter?icon=twitter&label)(https://twitter.com/PragmaOracle)
 
 ## Overview
 > **Starkbiter** is a framework for orchestrating event based agentic simulations on top of Starknet Devnet sandbox. Allows for using with local sqlite snapshot (`Pathfinder` structure) which operates blazingly fast.
@@ -27,40 +26,6 @@ The Starkbiter workspace has five crates:
 - `starkbiter-engine`: A lib that provides abstractions for building simulations, agents, and behaviors.
 - `starkbiter-macros`: A lib crate that contains the macros used to simplify development with Starkbiter.
 - `starkbiter-bindings`: A lib crate containing bindings for utility smart contracts used for testing and development.
-
-## WIP
-
-- [x] bin docs
-- [x] core docs
-- [x] main readme
-- [ ] docs docs
-    - [x] getting started
-    - [ ] usage
-    - [x] index
-- [ ] benchmarks
-- [x] python bindings
-- [x] more test cases
-- [x] support for replaying mainnet transactions mixing them with simulated ones.
-- [x] github workflows revival
-- [x] test that toml config parameters for forking work
-- [x] contract execution logging and traces from Devnet
-- [x] test for simultaneous connection usage by different contracts.
-- [x] Add API to preload state and save it to file. (like EKUBO core contract storage)
-- [x] Test approach to set local nonce before adding transaction to bypass validation (less remote calls)
-- [x] contribute to starknet-rs and remove fork dep
-- [ ] Contribute to starknet-devnet and remove fork dep
-  - [x] defaulter extension
-  - [ ] Type conversions
-  - [ ] Type conversions. need to replace Into with From
-  - [ ] Type conversions. remove Clone where possible
-  - [ ] some internals publishing
-- [ ] contribute to cainome and remove fork dep
-- [ ] Fix generic Runtime error with more specific errors from within Provider
-- [ ] Coverage report
-- [ ] Python binding add validation (last minute changes were dirty)
-- [ ] Environment. Move handler processing logic in separate files.
-- [ ] Make explicit naming for methods that only work with local data and ones that work against remote state
-
 
 ## Book
 TODO: Does not exist yet

@@ -1,83 +1,152 @@
-# Starkbiter
-**Starkbiter** is a framework for stateful Starknet smart-contract simulation. 
-The framework features an [`starknet-rs`](https://github.com/xJonathanLEI/starknet-rs) middleware built on top of [devnet](https://github.com/0xSpaceShard/starknet-devnet) which allows the end user to interact with a sandboxed `Starknet Sequencer` instance as if it were an Starknet node. 
-This provides a familiar interface for interacting with the Starknet zkVM (zkVM), but with unrivaled speed (TODO(baitcode): proofs?). 
-Furthermore, Starkbiter provides containment and management for simulations. 
+# Starkbiter Documentation
+
+```bash
+#  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+#  ░░     ░░░       ░░░     ░░░      ░░░░  ░░░  ░░      ░░░       ░░       ░░      ░░      ░░░
+#  ▒  ▒▒▒▒▒▒▒▒▒  ▒▒▒▒▒  ▒▒▒  ▒▒  ▒▒▒  ▒▒▒  ▒▒  ▒▒▒  ▒▒▒  ▒▒▒▒▒  ▒▒▒▒▒▒  ▒▒▒▒▒  ▒▒▒▒▒▒  ▒▒▒  ▒▒
+#  ▓▓     ▓▓▓▓▓  ▓▓▓▓▓  ▓▓▓  ▓▓     ▓▓▓▓▓    ▓▓▓▓▓      ▓▓▓▓▓▓  ▓▓▓▓▓▓  ▓▓▓▓▓    ▓▓▓▓      ▓▓▓
+#  ██████  ████  █████       ██  ███  ███  ██  ███  ███  █████  ██████  █████  ██████  ███  ██
+#  ██     █████  █████  ███  ██  ████  ██  ███  ██      ███       ████  █████      ██  ████  █
+#  ███████████████████████████████████████████████████████████████████████████████████████████
+```
+
+**Starkbiter** is a powerful framework for orchestrating event-based agentic simulations on top of Starknet. 
+The framework features a [`starknet-rs`](https://github.com/xJonathanLEI/starknet-rs) middleware built on top of [starknet-devnet](https://github.com/0xSpaceShard/starknet-devnet) which allows you to interact with a sandboxed Starknet Sequencer instance as if it were a live Starknet node.
+
+## Why Starkbiter?
+
+Starkbiter enables you to:
+- 🔬 **Test smart contracts** against adversarial environments and dynamic parameters
+- 🤖 **Build autonomous agents** that interact with Starknet contracts in realistic scenarios
+- 📊 **Model economic systems** and DeFi protocols with sophisticated simulations
+- 🔍 **Detect anomalies** and vulnerabilities before deployment
+- ⚡ **Rapid iteration** with high-performance local testing
 
 ## Overview
-The Starkbiter workspace has three crates:
-- `starkbiter`: The binary crate that exposes a command line interface for initializing simulations via a templated repository and generating contract bindings needed for the simulation.
-- `starkbiter-core`: The lib crate that contains the core logic for the Starkbiter framework including the `StarkbiterMiddleware` discussed before, the `Environment` which envelopes simulations, and the `Manager` who controls a collection of environments.
-- `starkbiter-engine`: The lib crate that provides abstractions for building simulations and more.
 
-The purpose of Starkbiter is to provide a toolset to construct arbitrary agents (defined in Rust, by smart contracts, or even other foreign function interfaces) and have these agents interact with an Ethereum-like environment of your design. 
-All contract bytecode is run directly using a `Starknet Devnet` (which is using blockifier, current sequencer implementation of Starkware) so that your contracts are tested in the exact same type of environment that they are deployed in.
+The Starkbiter workspace consists of five crates:
 
-## Motivation 
-Smart contract engineers need to test their contracts against a wide array of potentially adversarial environments and contract parameters. 
-The static stateless testing of contracts can only take you so far. 
-To truly test the security of your solution, you need to test it against a wide array of dynamic environments that encompass the externalities of Starknet mainnet. 
-We wanted to do just that with Starkbiter. 
+- **`starkbiter`**: Binary crate providing a CLI for contract bindings generation
+- **`starkbiter-core`**: Core library with `Environment` sandbox and middleware for Starknet interaction
+- **`starkbiter-engine`**: High-level abstractions for building simulations, agents, and behaviors
+- **`starkbiter-macros`**: Proc macros to simplify development
+- **`starkbiter-bindings`**: Pre-generated bindings for common utility contracts
 
-Both smart contract and financial engineers come together in Decentralized Finance (DeFi) to build and deploy a wide array of complex decentralized applications as well as financial strategies respectively. 
-For the latter, a financial engineer may want to test their strategies against thousands of market conditions, contract settings, shocks, and autonomous or random or even AI agents all while making sure their strategy isn't vulnerable to bytecode-level exploits.
+All contract bytecode runs directly using Starknet Devnet (powered by Blockifier, Starkware's sequencer implementation), ensuring your contracts are tested in an environment identical to production.
 
-To configure such a rich simulation environment on a test or local network is also possible with Starlbiter by a change in choice of middleware. 
-The most efficient choice for getting robust, yet quick, simulations would bypass any networking and use a low level language's implementation of the EVM. 
+## Key Features
 
-### Sim Driven Development and Strategization 
+### 🏗️ Stateful Simulation
+Test contracts against dynamic, stateful environments that mirror real-world Starknet conditions.
 
-Test driven development is a popular engineering practice to write tests first, which fail, and implement logic to get the test to eventually pass. 
-With simulation driven development, it's possible to build "tests" that can only pass if the *incentives* actually work. For example, a sim driven test might be `is_loan_liquidated`, and a simulation must be made for a liquidator agent to do the liquidation. 
-This approach significantly improves the testing of economic systems and other mechanism designs, which is important in the world of networks that are mostly incentive driven.
+### 🎯 Event-Based Architecture
+Build reactive agents that respond to blockchain events, enabling complex behavioral modeling.
 
-The same goes with developing strategies that one would like to deploy on a live Ethereum network. 
-One can use Strbiter to simulate their strategy with an intended goal and see if it actually works. 
-This is especially important in the world of DeFi where strategies are often a mix of on and offchain and are susceptible to exploits.
+### 🔌 Full JSON-RPC Support
+Complete Starknet node capabilities with additional methods for controlling block production and deployments.
 
-### Anomaly Detection
-Anomaly detection in software design systems refers to identifying unusual patterns or behaviors that deviate from the expected or normal functioning of the software. These anomalies can be due to various reasons, such as bugs, performance issues, security vulnerabilities, or design flaws. Arbiter's agent-based modeling and EVM execution parity make it well suited for anomaly detection of greater systemic risk in the Ethereum ecosystem. 
+### 🚀 High Performance
+Local execution provides unmatched speed for rapid testing and iteration.
 
-In the context of software design, anomaly detection can be used to identify design flaws or inconsistencies in the design of the software. For example, if a particular module or component of the software behaves differently than it was intended, it could indicate a design flaw or security vulnerability. 
+### 🧪 Forking Support
+Fork from any Starknet network state to test against real mainnet or testnet conditions.
 
-### Agent Base Modeling 
-Agent-based simulations for anomaly detection systems involve creating a model of the system using agents, where each agent represents a component or a module of the system. These agents interact with each other and their environment, mimicking the behavior of the actual system. Agent-based simulations can be a powerful tool for anomaly detection as they can model complex systems and their interactions, making it possible to detect anomalies that other methods might miss. However, they also require a good understanding of the system being modeled and what constitutes normal behavior for that system.
+## Use Cases
 
-### Modeling the System
-The first and most crucial step is to model the system. A well-modeled system accurately reflects the real-world behavior of the software or system under study. This ensures that the simulation provides meaningful and applicable results. We build the `StarkbiterMiddleware` to accurately model how users/agents or externally owned accounts interact with the EVM. This means the `StarkbiterMiddleware` implements the middleware trait from the rust Ethereum ecosystem, exploiting the same API the EOAs would use to talk to a node today. This is why having EVM execution parity is so important.
+### Smart Contract Testing
+Move beyond static, stateless tests. Simulate contracts in adversarial environments with various parameters and agent behaviors.
 
-#### Statistical Methods: 
-These methods model the system's normal behavior using statistical models and then use these models to detect deviations. To model things well, people use techniques such as mean, median, and standard deviation, or more complex models like regression models can be used. For example, the Poisson distribution gives the probability of an event happening a certain number of times (k) within a given interval of time or space. So, you can quantify an average number of occurrences of some action (say, to model the behavior of a retail agent or network congestion from certain events). In that case, you can model this well with the Poisson distribution. 
+### DeFi Protocol Development
+Model complex economic systems with multiple interacting agents, market conditions, and edge cases.
 
-### Defining Normal Behavior: Agent design
-Once the system is modeled, the next step is to define what constitutes normal behavior for the system. This could be based on historical data, expert knowledge, or both. This is not a feature of Starkbiter yet (The starkbiter-engine crate is a WIP but contains some of our initial work on this). This can be incredibly simple (passive behavior) or complex (interactive behavior). But the better they model the system, the better the results. For example, you can model LPs as more passive agents that deposit and withdraw liquidity based on some average occurrences. In contrast, arbitrageurs can be modeled as more interactive agents that react to certain events or `SLAOD's on specific memory locations. As the agents start to resemble real-world actors, the results will be more accurate, and the data will be more beneficial for the system designers.
+### Simulation-Driven Development
+Build tests that validate not just code correctness, but economic incentives and mechanism design.
 
-### Simulating the System
-The system is then simulated over some time. During this simulation, the agents interact with each other and their environment, generating data that reflects the system's behavior. You can decide on specific parameters and configurations for the system. Designating the system simulation to be as close to the real-world system as possible is recommended. For example, historically or with price processes, we can model a sequence of prices for arbitrageurs. The speed and performance of the simulation have made it possible for you to get more data by doing the latter. 
+### Strategy Backtesting
+Test trading strategies, liquidation bots, and other autonomous agents against thousands of scenarios.
 
-### Detecting Anomalies
-The data generated by the simulation is then analyzed to detect anomalies. This could be done using various statistical methods, machine learning, or rule-based methods. Anomalies are identified as deviations from the defined normal behavior. 
+### Security Auditing
+Perform domain-specific fuzzing and anomaly detection to uncover vulnerabilities before deployment.
 
+## Getting Started
 
->Machine Learning: Machine Learning techniques can be used to learn the system's normal behavior and then detect anomalies. 
+Ready to start building with Starkbiter? Here's what you need:
 
->Rule-Based Methods: These methods define rules that describe the system's normal behavior. Any behavior that does not conform to these rules is considered an anomaly.
+1. **[Installation](./getting_started/installation.md)** - Set up Rust and install Starkbiter
+2. **[Quick Start](./getting_started/quick_start.md)** - Your first simulation in 5 minutes
+3. **[Examples](./getting_started/examples.md)** - Learn from working examples
 
->Time Series Analysis: In systems where data is collected over time, time series analysis can be used to detect anomalies. This involves looking for patterns or trends in the data over time and identifying any deviations from these patterns. 
->>Log Analysis: Many software systems generate logs that record the system's activity. Analyzing these logs can help detect anomalies. This can be done manually or using automated tools. 
+## Architecture
 
->>Evaluating and Refining the Model: The detected anomalies are evaluated to determine if they are true anomalies or false positives. The model is refined based on these evaluations to improve its accuracy in detecting abnormalities.
+Starkbiter's architecture is built around three core components:
 
+### Environment
+A sandboxed Starknet instance that provides:
+- Full sequencer capabilities via Starknet Devnet
+- Complete control over block production
+- State forking from live networks
+- Contract deployment and declaration
 
-### Using Insights to Refine the System
-Insights gained from the system can be invaluable in refining and improving it. By understanding the anomalies and their causes, we can make necessary adjustments to the system's design or operation. This could involve modifying the system's parameters, updating the agent's behaviors, or even redesigning certain aspects of the system. 
+### Middleware
+A familiar interface for contract interaction:
+- Implements `starknet-rs` patterns
+- Seamless integration with existing tooling
+- Additional control methods for testing
 
-However, it's essential to be cautious about overfitting the data. Overfitting occurs when a model is excessively complex, such as having too many parameters relative to the number of observations. An overfitted model has poor predictive performance, as it overreacts to minor fluctuations in the training data.
+### Engine
+High-level abstractions for simulations:
+- Agent behaviors and event handling
+- World and universe management
+- Configuration-driven setup
+- Inter-agent messaging
 
-## Developer Documentation
-To see the documentation for the Starkbiter crates, please visit the following:
-- [`starkbiter`](https://docs.rs/crate/arbiter/)
-- [`starkbiter-bindings`](https://docs.rs/crate/starkbiter-bindings/)
-- [`starkbiter-core`](https://docs.rs/starkbiter-core/)
+## Quick Example
 
-You will also find each of these on crates.io.
+Here's a simple example of creating an environment and deploying a contract:
+
+```rust
+use starkbiter_core::environment::Environment;
+use starknet::core::types::Felt;
+
+// Create a new environment
+let env = Environment::builder()
+    .with_chain_id(Felt::from_hex("0x534e5f5345504f4c4941").unwrap())
+    .build()
+    .await?;
+
+// Create an account
+let account = env.create_single_owner_account(
+    Felt::from_hex("0xprivate_key").unwrap(),
+    Felt::from_hex("0xaccount_address").unwrap(),
+).await?;
+
+// Deploy your contracts and start simulating!
+```
+
+## Resources
+
+### Documentation
+- 📖 **[This Book](https://astraly-labs.github.io/starkbiter/)** - Complete guide and tutorials
+- 📚 **[API Docs](https://docs.rs/starkbiter-core/)** - Detailed API documentation
+- 🎓 **[Examples](https://github.com/astraly-labs/starkbiter/tree/main/examples)** - Working code examples
+
+### Crates
+All Starkbiter crates are available on crates.io:
+- [`starkbiter`](https://crates.io/crates/starkbiter) - CLI tool
+- [`starkbiter-core`](https://crates.io/crates/starkbiter-core) - Core library
+- [`starkbiter-engine`](https://crates.io/crates/starkbiter-engine) - Simulation engine
+- [`starkbiter-macros`](https://crates.io/crates/starkbiter-macros) - Proc macros
+- [`starkbiter-bindings`](https://crates.io/crates/starkbiter-bindings) - Contract bindings
+
+### Community
+- 🐙 **[GitHub](https://github.com/astraly-labs/starkbiter)** - Source code and issues
+- 💬 **[Discussions](https://github.com/astraly-labs/starkbiter/discussions)** - Ask questions and share ideas
+- 🐛 **[Issues](https://github.com/astraly-labs/starkbiter/issues)** - Report bugs and request features
+
+## Contributing
+
+Starkbiter is open source and welcomes contributions! Check out our [Contributing Guide](./contributing/index.md) to get started.
+
+## License
+
+Starkbiter is licensed under the MIT License. See the [LICENSE](https://github.com/astraly-labs/starkbiter/blob/main/LICENSE) file for details.
