@@ -65,8 +65,14 @@ use tracing::debug;
 
 use super::*;
 use crate::tokens::get_token_data;
-
 pub mod instruction;
+
+/// This module provides a reader for the Starknet state stored in a SQLite
+/// database. It is compatible with starknet-devnet defaulter implementation,
+/// and allows to replace node api http requests for state storage data with
+/// SQLite queries for Pathfinder formatted sqlite database.
+pub mod sqlite_state_reader;
+
 use instruction::{Instruction, NodeInstruction, NodeOutcome, Outcome};
 
 mod utils;
@@ -1679,6 +1685,7 @@ async fn process_instructions(
                     }
                 }
                 instruction::CheatInstruction::ReplayBlockWithTxs {
+                    url,
                     block_id,
                     has_events: filters,
                     override_nonce,
@@ -1689,16 +1696,6 @@ async fn process_instructions(
                         "Environment. Received ReplayBlockWithTxs instruction: tx_hash: {:?}",
                         block_id,
                     );
-                    let maybe_url = starknet.config.fork_config.clone().url;
-                    if maybe_url.is_none() {
-                        if let Err(e) = sender.send(Err(StarkbiterCoreError::NoForkConfig)) {
-                            error!("Failed to send Cheating GetBlockWithTxs error: {:?}", e);
-                            stop = true;
-                        }
-                        continue;
-                    }
-
-                    let url = maybe_url.unwrap();
 
                     let provider = JsonRpcClient::new(HttpTransport::new(url.clone()));
 
@@ -1708,7 +1705,7 @@ async fn process_instructions(
                         if let Err(e) =
                             sender.send(Err(StarkbiterCoreError::InternalError(e.to_string())))
                         {
-                            error!("Failed to send Cheating GetBlockWithTxs error: {:?}", e);
+                            error!("Failed to send Cheating ReplayBlockWithTxs error: {:?}", e);
                             stop = true;
                         }
                         continue;
